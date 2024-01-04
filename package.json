@@ -1,5 +1,5 @@
 {
-  "name": "next-template",
+  "name": "Atlas Laboratory",
   "version": "0.0.2",
   "private": true,
   "scripts": {
@@ -30,6 +30,7 @@
     "clsx": "^1.2.1",
     "date-fns": "^3.0.6",
     "firebase": "^10.7.1",
+    "firebase-admin": "^12.0.0",
     "lucide-react": "0.105.0-alpha.4",
     "next": "^13.4.8",
     "next-themes": "^0.2.1",

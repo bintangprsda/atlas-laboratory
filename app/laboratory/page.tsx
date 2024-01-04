@@ -21,8 +21,6 @@ export default function IndexPage() {
       <NavigationSection />
       <IndicatorDashboard />
       <RecentOrder />
-
-
-    </section>
+      </section>
   )
 }

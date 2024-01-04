@@ -1,6 +1,6 @@
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
-"use client"
-import { initializeApp, getApps, getApp } from 'firebase/app';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -11,7 +11,8 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Inisialisasi Firebase hanya jika belum ada aplikasi Firebase yang diinisialisasi
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
-export default app;
+export default firebase;

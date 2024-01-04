@@ -3,7 +3,7 @@
   "setupTasks": [
     {
       "name": "Install Dependencies",
-      "command": "yarn install"
+      "command": "npm install"
     }
   ],
 
@@ -48,6 +48,14 @@
     "format:check": {
       "name": "format:check",
       "command": "yarn format:check"
+    },
+    "npm run dev": {
+      "name": "npm run dev",
+      "command": "npm run dev",
+      "runAtStart": true,
+      "preview": {
+        "port": 3000
+      }
     }
   }
 }
