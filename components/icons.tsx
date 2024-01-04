@@ -3,12 +3,18 @@ import {
   Moon,
   SunMedium,
   Twitter,
+  BarChartHorizontal,
+  CircleUser,
+  Pyramid,
   type Icon as LucideIcon,
 } from "lucide-react"
 
 export type Icon = LucideIcon
 
 export const Icons = {
+  logos: Pyramid,
+  user: CircleUser,
+  bar: BarChartHorizontal,
   sun: SunMedium,
   moon: Moon,
   twitter: Twitter,

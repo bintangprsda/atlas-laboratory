@@ -12,47 +12,42 @@
     "dev": {
       "name": "dev",
       "command": "yarn dev",
-      "runAtStart": true
+      "runAtStart": true,
+      "preview": {
+        "port": 3000
+      }
     },
     "build": {
       "name": "build",
-      "command": "yarn build",
-      "runAtStart": false
+      "command": "yarn build"
     },
     "start": {
       "name": "start",
-      "command": "yarn start",
-      "runAtStart": false
+      "command": "yarn start"
     },
     "lint": {
       "name": "lint",
-      "command": "yarn lint",
-      "runAtStart": false
+      "command": "yarn lint"
     },
     "lint:fix": {
       "name": "lint:fix",
-      "command": "yarn lint:fix",
-      "runAtStart": false
+      "command": "yarn lint:fix"
     },
     "preview": {
       "name": "preview",
-      "command": "yarn preview",
-      "runAtStart": false
+      "command": "yarn preview"
     },
     "typecheck": {
       "name": "typecheck",
-      "command": "yarn typecheck",
-      "runAtStart": false
+      "command": "yarn typecheck"
     },
     "format:write": {
       "name": "format:write",
-      "command": "yarn format:write",
-      "runAtStart": false
+      "command": "yarn format:write"
     },
     "format:check": {
       "name": "format:check",
-      "command": "yarn format:check",
-      "runAtStart": false
+      "command": "yarn format:check"
     }
   }
 }
