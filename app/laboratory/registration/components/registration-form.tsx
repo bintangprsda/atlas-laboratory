@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -35,6 +35,29 @@ import { Badge } from "@/components/ui/badge"
 
 
 const RegistrationForm = () => {
+  const [selectedTests, setSelectedTests] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch data from your API endpoint
+        const response = await fetch("../../api");
+        const data = await response.json();
+
+        // Extract selectedTests from the response
+        const { selectedTests } = data;
+
+        // Update state with selectedTests
+        setSelectedTests(selectedTests);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error
+      }
+    };
+
+    // Call the fetchData function
+    fetchData();
+  }, []); //
   return (
     <Card>
       <CardHeader>
@@ -113,6 +136,7 @@ const RegistrationForm = () => {
               </div>
               <div className="grid gap-6">
                 <ScrollArea className="h-[300px]">
+                {selectedTests.map((test, index) => (
                   <div className="flex mt-2 items-center justify-between space-x-4 ">
                     <div className="flex items-center space-x-4">
                       <div className="h-8 w-8 flex items-center justify-center rounded-full">
@@ -120,11 +144,10 @@ const RegistrationForm = () => {
                       </div>
                       <div>
                         <h2 className="text-sm font-extrabold leading-none">
-                          Full Blood Count
+                        {`${test.testName}`}
                         </h2>
                         <div className="flex items-center space-x-2 mt-1">
-                          <Badge variant="primary">2 Hours</Badge>
-                          <p className="text-xs text-muted-foreground">Rp. 150.000</p>
+                          <p className="text-xs text-muted-foreground">{`Rp. ${test.price}`}</p>
                         </div>
                       </div>
 
@@ -134,6 +157,7 @@ const RegistrationForm = () => {
                     </Button>
 
                   </div>
+                  ))}
                 </ScrollArea>
               </div>
             </div>

@@ -29,6 +29,7 @@ const Information: React.FC = () => {
           Detailed Clinical Laboratory Test Information
         </p>
       </div>
+      
       <InformationTest />
     </section>
 

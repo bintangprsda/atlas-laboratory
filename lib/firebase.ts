@@ -1,6 +1,6 @@
+// firebase.ts
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -11,6 +11,7 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+// Ensure Firebase is initialized only if it's not already
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
