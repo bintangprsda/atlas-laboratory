@@ -26,7 +26,7 @@ const InformationTest = () => {
     const fetchData = async () => {
       try {
         // Fetch data from your API endpoint
-        const response = await fetch("../../api");
+        const response = await fetch("../../api/labtest");
         const data = await response.json();
 
         // Extract selectedTests from the response
@@ -59,7 +59,7 @@ const InformationTest = () => {
         <ScrollArea className="h-[300px]">
           
             {selectedTests.map((test, index) => (
-              <div key={index} className="flex mt-2 items-center justify-between space-x-4 hover:bg-gray-200 transition duration-300 ease-in-out">
+              <div key={index} className="flex mt-2 items-center justify-between space-x-4 hover:bg-secondary/80 rounded-lg ">
               <div className="flex items-center space-x-4">
                 <div className="h-8 w-8 flex items-center justify-center rounded-full">
                   <FlaskConical className="h-5 w-5" />

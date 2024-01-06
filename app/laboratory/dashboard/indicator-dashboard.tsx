@@ -26,23 +26,19 @@ const IndicatorDashboard = () => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">45</div>
-          <p className="text-xs text-muted-foreground">
-            25-12-2023
-          </p>
+          
         </CardContent>
       </Card>
       <Card  className="hover:bg-secondary/80">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
-            Completed
+            Selesai
           </CardTitle>
           <CheckCircle className="text-green-600" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">30</div>
-          <p className="text-xs text-muted-foreground">
-            25-12-2023
-          </p>
+          
         </CardContent>
       </Card>
         <Card  className="hover:bg-secondary/80">
@@ -54,23 +50,19 @@ const IndicatorDashboard = () => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">5</div>
-          <p className="text-xs text-muted-foreground">
-            25-12-2023
-          </p>
+          
         </CardContent>
       </Card>
         <Card  className="hover:bg-secondary/80">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
-            Sending
+            Dikirim
           </CardTitle>
           <Send className="text-indigo-600" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">5</div>
-          <p className="text-xs text-muted-foreground">
-            25-12-2023
-          </p>
+          
         </CardContent>
       </Card>
       </div>

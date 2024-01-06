@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import OrderRequest from "./components/request-order"
 
+
 const RequestOrder: React.FC = () => {
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
@@ -28,6 +29,7 @@ const RequestOrder: React.FC = () => {
           Laboratory Examination Requisition from Referral Hospitals/Laboratories
         </p>
       </div>
+     
       <OrderRequest/>
     </section>
 
