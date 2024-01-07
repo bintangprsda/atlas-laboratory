@@ -25,10 +25,11 @@ async function getUsersData() {
       const userData = userDoc.data();
       return {
         username: userData.username,
-        completedName: userData.completedName,
+        completeName: userData.completeName,
         hospital: userData.hospital,
         group: userData.group,
-        profilPictureURL: userData.profilPictureURL // Menambahkan profilPictureURL
+        role: userData.role,
+        profilePictureURL: userData.profilePictureURL // Menambahkan profilPictureURL
       };
     });
 
@@ -38,15 +39,69 @@ async function getUsersData() {
   }
 }
 
+async function getHospitalsData() {
+  try {
+    // Mengambil referensi koleksi 'hospitals' dari Firestore
+    const hospitalsCollection = admin.firestore().collection('hospitals');
+
+    // Mengambil data dari koleksi 'hospitals'
+    const hospitalsSnapshot = await hospitalsCollection.get();
+
+    // Mengubah data snapshot 'hospitals' menjadi array dengan properti yang spesifik
+    const hospitals = hospitalsSnapshot.docs.map((hospitalDoc) => {
+      const hospitalData = hospitalDoc.data();
+      return {
+        hospitalsName: hospitalData.hospitalsName,
+        email: hospitalData.email,
+      };
+    });
+
+    return hospitals;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getRolesData() {
+  try {
+    // Mengambil referensi koleksi 'roles' dari Firestore
+    const rolesCollection = admin.firestore().collection('roles');
+
+    // Mengambil data dari koleksi 'roles'
+    const rolesSnapshot = await rolesCollection.get();
+
+    // Mengubah data snapshot 'roles' menjadi array dengan properti yang spesifik
+    const roles = rolesSnapshot.docs.map((roleDoc) => {
+      const roleData = roleDoc.data();
+      return {
+        RoleName: roleData.RoleName,
+        ID: roleData.ID,
+      };
+    });
+
+    return roles;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function GET() {
   try {
     // Mengambil data pengguna dari fungsi getUsersData
     const users = await getUsersData();
+    
+    // Mengambil data rumah sakit dari fungsi getHospitalsData
+    const hospitals = await getHospitalsData();
+    
+    // Mengambil data peran dari fungsi getRolesData
+    const roles = await getRolesData();
 
-    // Menyiapkan respons dengan data pengguna dari Firestore
+    // Menyiapkan respons dengan data dari Firestore
     const response = {
-      message: "Data pengguna dari Firestore",
+      message: "Data pengguna, rumah sakit, dan peran dari Firestore",
       users: users,
+      hospitals: hospitals,
+      roles: roles,
       status: "success",
     };
 

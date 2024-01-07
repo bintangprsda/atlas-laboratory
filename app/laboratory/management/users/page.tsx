@@ -4,6 +4,10 @@ import {
   ChevronLeft,
 } from 'lucide-react';
 import  UsersDashboard  from "../components/total-users"
+import  {DashboardUsers}  from "../users/components/list-users"
+import  {ListHospitals}  from "../users/components/list-hospitals"
+import  {ListRoles}  from "../users/components/list-roles"
+
 
 
 const UsersList: React.FC = () => {
@@ -30,6 +34,14 @@ const UsersList: React.FC = () => {
         </p>
       </div>
       <UsersDashboard/>
+      <div className="w-full h-full flex items-center justify-center">
+      <div className="w-full mx-auto max-w-[950] mb-5 grid md:grid-cols-3 gap-4">
+        <DashboardUsers/>
+        <ListHospitals/>
+        <ListRoles/>
+      </div>
+      </div>
+      
     </section>
 
   );
