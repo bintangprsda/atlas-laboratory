@@ -1,78 +1,75 @@
 "use client"
-import React from "react";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
+import React, { useEffect, useState } from "react";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
   CardHeader,
   CardDescription,
   CardTitle,
-} from "@/components/ui/card"
-import { format, isToday } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+} from "@/components/ui/card";
+import DatePicker from "./date-picker";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { UserCheck } from "lucide-react";
 
-    const RecentOrder = () => {
-      const [date, setDate] = React.useState();
+const RecentOrder = () => {
+  const [orderTests, setOrderTests] = useState([]);
 
-      const today = new Date(); // Get the current date
+  useEffect(() => {
+    // Fetch orderTest data when the component mounts
+    const fetchOrderTestData = async () => {
+      try {
+        const response = await fetch("../../api/order");
+        const data = await response.json();
+        setOrderTests(data.orderTests);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-      return (
+    fetchOrderTestData();
+  }, []);
+
+  return (
     <div className="grid md:grid-cols">
       <Card className="col-span-3">
         <CardHeader>
-          <CardTitle>Recent Order</CardTitle>
+          <CardTitle>Recent order</CardTitle>
           <CardDescription>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"primary"}
-                  className={cn(
-                    "w-[280px] justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? format(date, "PPP") : <span>Pick a date</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
-              </PopoverContent>
-            </Popover>
+            <DatePicker />
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-8">
-            <div className="flex items-center hover:bg-secondary/80 rounded p-2">
-              <Avatar className="h-9 w-9">
-                <AvatarImage src="/public/iconsiloam.webp" alt="Avatar" />
-                <AvatarFallback>OM</AvatarFallback>
-              </Avatar>
-              <div className="ml-4 flex-shrink-0 space-y-1">
-                <p className="text-sm font-medium leading-none truncate">
-                  Olivia Martin
-                </p>
-                <p className="text-xs text-muted-foreground truncate">
-                  SH Kelapa Dua
-                </p>
-                <p className="text-xs text-muted-foreground truncate">
-                  23-12-2023 20:30
-                </p>
-              </div>
-              <Badge className="ml-auto text-xs" variant="completed">
-                Completed
-              </Badge>
+          <ScrollArea className="h-[300px]">
+            <div className="space-y-8">
+              {orderTests
+                .filter((orderTest) => orderTest.status !== "Selesai")
+                .map((orderTest, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center hover:bg-secondary/80 rounded-lg p-2"
+                  >
+                    <div className="h-8 w-8 flex items-center justify-center rounded-full">
+                      <UserCheck className="h-7 w-7" />
+                    </div>
+                    <div className="ml-4 flex-shrink-0 space-y-1">
+                      <p className="text-sm font-medium leading-none truncate">
+                        {orderTest.namaPasien}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {orderTest.namaRS}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {orderTest.tanggalKirim}
+                      </p>
+                    </div>
+                    <Badge className="ml-auto text-xs" variant={orderTest.status}>
+                      {orderTest.status}
+                    </Badge>
+                  </div>
+                ))}
             </div>
-          </div>
+          </ScrollArea>
         </CardContent>
       </Card>
     </div>

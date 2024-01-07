@@ -27,7 +27,7 @@ export function Sidebar({ className, management }) {
               List user
             </div>
           </Link>
-          <Link href="/laboratory/management/settingtube">
+          <Link href="/laboratory/management/tube">
             <div className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground">
               <Settings className="mb-3 h-6 w-6 text-green-500" /> {/* Example: Green color */}
               Setting Tube
