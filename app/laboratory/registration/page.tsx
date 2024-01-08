@@ -3,16 +3,6 @@ import { buttonVariants } from "@/components/ui/button";
 import {
   ChevronLeft,
 } from 'lucide-react';
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Combobox } from "@/components/ui/combobox"
 import RegistrationForm from "./components/registration-form";
 
 

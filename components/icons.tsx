@@ -12,8 +12,6 @@ import {
 export type Icon = LucideIcon
 
 export const Icons = {
-  logos: Pyramid,
-  user: CircleUser,
   bar: BarChartHorizontal,
   sun: SunMedium,
   moon: Moon,

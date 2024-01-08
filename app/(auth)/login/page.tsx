@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import Link from "next/link"
 import { Icons } from "@/components/icons"
 import { UserAuthForm } from "./components/login-form"
+import { SiteHeader } from "@/components/site-header"
 
 export const metadata: Metadata = {
   title: "Login",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function AuthenticationPage() {
   return (
     <>
+    <SiteHeader/>
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
 
         <div className="p-5 flex flex-col space-y-2 text-center justify-center">

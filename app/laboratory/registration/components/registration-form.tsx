@@ -11,12 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
+
 
 import {
   Select,
@@ -58,6 +53,7 @@ const RegistrationForm = () => {
     // Call the fetchData function
     fetchData();
   }, []); //
+
   return (
     <Card>
       <CardHeader>
@@ -135,30 +131,28 @@ const RegistrationForm = () => {
                 <Input placeholder="Search" className="pl-8" />
               </div>
               <div className="grid gap-6">
-                <ScrollArea className="h-[300px]">
+              <ScrollArea className="h-[300px]">
                 {selectedTests.map((test, index) => (
-                  <div className="flex mt-2 items-center hover:bg-secondary/80 rounded-lg justify-between space-x-4 ">
+                  <div key={index} className="flex mt-2 items-center hover:bg-secondary/80 rounded-lg justify-between space-x-4">
                     <div className="flex items-center space-x-4">
                       <div className="h-8 w-8 flex items-center justify-center rounded-full">
                         <FlaskConical className="h-5 w-5" />
                       </div>
-                      <div>
-                        <h2 className="text-sm font-extrabold leading-none">
+                    <div>
+                      <h2 className="text-sm font-extrabold leading-none">
                         {`${test.testName}`}
-                        </h2>
-                        <div className="flex items-center space-x-2 mt-1">
-                          <p className="text-xs text-muted-foreground">{`Rp. ${test.price}`}</p>
-                        </div>
-                      </div>
-
-                    </div>
-                    <Button variant="ghost" size="icon">
-                      <PlusCircle className="h-4 w-4" />
-                    </Button>
-
+                      </h2>
+                    <div className="flex items-center space-x-2 mt-1">
+                       <p className="text-xs text-muted-foreground">{`Rp. ${test.price}`}</p>
                   </div>
+                </div>
+                </div>
+                  <Button variant="ghost" size="icon">
+                    <PlusCircle className="h-4 w-4" />
+                  </Button>
+              </div>
                   ))}
-                </ScrollArea>
+              </ScrollArea>
               </div>
             </div>
           </CardContent>
