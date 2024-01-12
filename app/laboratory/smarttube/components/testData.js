@@ -7,9 +7,9 @@ export const testData = {
           {
             name: "Hematology - General",
             tests: [
-              { id: "fbc", name: "Full Blood Count" },
-              { id: "cbc", name: "Protein C" },
-              { id: "bloodSmear", name: "Prothrombin Time ( PT ) INR" },
+              { id: "10", name: "FULL BLOOD COUNT" },
+              { id: "cbc", name: "COMPLETE BLOOD COUNT" },
+              { id: "bloodSmear", name: "RETICULOCYTE COUNT" },
             ],
           },
         ],
@@ -24,26 +24,13 @@ export const testData = {
             tests: [
               { id: "afp", name: "AFP" },
               { id: "hbsag", name: "HBSAG" },
-              { id: "antiToxoplasmaIgg", name: "Anti Toxoplasma IGG" },
+              { id: "antiToxoplasmaIgg", name: "ANTI TOXOPLASMA IGG" },
             ],
           },
           // ...Tambahkan subkategori lainnya sesuai kebutuhan
         ],
       },
-      {
-        category: "urine",
-        subcategories: [
-          {
-            name: "Tumor Marker",
-            tests: [
-              { id: "afp", name: "AFP" },
-              { id: "hbsag", name: "HBSAG" },
-              { id: "antiToxoplasmaIgg", name: "Anti Toxoplasma IGG" },
-            ],
-          },
-          // ...Tambahkan subkategori lainnya sesuai kebutuhan
-        ],
-      },
+      // ...Tambahkan category lainnya sesuai kebutuhan
     ],
   };
   

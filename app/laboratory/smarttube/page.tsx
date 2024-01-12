@@ -5,7 +5,7 @@ import {
   ChevronLeft, Copy 
 } from 'lucide-react';
 import { DialogDemo } from "./components/form"
-import { AddTest } from "./components/add-test"
+
 
 
 
@@ -34,11 +34,7 @@ const SmartTube: React.FC = () => {
         </p>
       </div>
       <DialogDemo />
-       <div className="w-full h-full flex items-center justify-center">
-      <div className="w-full mx-auto max-w-[950] mb-5 grid md:grid-cols-2 gap-4">
-    <AddTest/>
-      </div>
-      </div>
+       
       
 
     </section>

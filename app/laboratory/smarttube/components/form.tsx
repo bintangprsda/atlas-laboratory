@@ -7,12 +7,15 @@ import * as z from "zod";
 import {
   Dialog,
   DialogContent,
+  DialogClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Search, MoreVertical , PlusCircle, Trash2, FlaskConical  } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -24,6 +27,7 @@ import { testData } from "./testData";
 export function DialogDemo() {
   const { register, handleSubmit } = useForm();
   const [searchValue, setSearchValue] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // New state to control dialog visibility
   const items = testData;
 
   const onSubmit = (data) => {
@@ -36,11 +40,14 @@ export function DialogDemo() {
     );
   };
 
+
   return (
     <>
-      <Dialog>
+       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="outline">Klik Form</Button>
+          <Button variant="outline" >
+            Klik Form
+          </Button>
         </DialogTrigger>
         <DialogContent className="w-full sm:max-w-[950px] mx-auto p-4 rounded-md">
           <DialogHeader>
@@ -131,12 +138,47 @@ export function DialogDemo() {
             </TabsContent>
           </Tabs>
           <DialogFooter>
-          <Button type="close" variant="default" onClick={handleSubmit(onSubmit)}>
-    Save
-  </Button>
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Close
+            </Button>
+          </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <div className="w-full h-full flex items-center justify-center">
+      <div className="w-full mx-auto max-w-[950] mb-5 grid md:grid-cols-2 gap-4">
+      <Card className="mb-4 md:mb-0">
+      <CardHeader>
+        <CardTitle>List Test</CardTitle>
+        <CardDescription>Select test laboratory</CardDescription>
+      </CardHeader>
+      <CardContent>
+      <Separator className="my-2" />
+        <ScrollArea className="h-[300px]">
+          <div className="grid gap-6">
+           
+              <div  className="flex items-center mt-4">
+              <div className="ml-3 h-8 w-8 flex items-center justify-center rounded-full">
+              <FlaskConical className="h-5 w-5" />
+              </div>
+              <div className="ml-4 space-y-1">
+                <p className="text-sm font-medium leading-none">test.name</p>
+                <p className="text-sm text-muted-foreground">test.ID</p>
+              </div>
+              <div className="ml-auto font-light text-sm">
+              <Button variant="ghost" size="icon"> 
+                    <MoreVertical  className="h-4 w-4" />
+                  </Button>
+                </div>
+            </div>
+          </div>
+        </ScrollArea>
+      </CardContent>
+    </Card>
+      </div>
+      </div>
+
     </>
   );
 }
