@@ -159,9 +159,9 @@ const RegistrationForm = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Share this document</CardTitle>
+            <CardTitle>Add test</CardTitle>
             <CardDescription>
-              Anyone with the link can view this document.
+              -
             </CardDescription>
           </CardHeader>
           <CardContent>

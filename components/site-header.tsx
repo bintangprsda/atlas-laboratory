@@ -1,8 +1,10 @@
 import Link from "next/link"
-
+import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/config/site"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
+import {ChevronLeft } from 'lucide-react';
+import { LoginForm } from "@/components/login-form";
 
 export function SiteHeader() {
   return (
@@ -12,6 +14,7 @@ export function SiteHeader() {
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
             <ThemeToggle />
+            <LoginForm/>
           </nav>
         </div>
       </div>

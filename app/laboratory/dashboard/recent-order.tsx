@@ -53,7 +53,7 @@ const RecentOrder = () => {
                       <UserCheck className="h-7 w-7" />
                     </div>
                     <div className="ml-4 flex-shrink-0 space-y-1">
-                      <p className="text-sm font-medium leading-none truncate">
+                      <p className="text-xs font-medium leading-none truncate">
                         {orderTest.namaPasien}
                       </p>
                       <p className="text-xs text-muted-foreground truncate">

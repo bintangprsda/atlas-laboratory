@@ -14,31 +14,26 @@ if (!admin.apps.length) {
 
 export async function GET() {
   try {
-    // Fetch data from Firestore
-    const selectedTestCollection = admin.firestore().collection('selectedTests');
-    const selectedTestSnapshot = await selectedTestCollection.get();
+    // Fetch data from Firestore for tubeTypes
+    const tubeTypesCollection = admin.firestore().collection('tubeTypes');
+    const tubeTypesSnapshot = await tubeTypesCollection.get();
 
     // Map the data to an array of objects
-    const selectedTests = selectedTestSnapshot.docs.map((testDoc) => {
-      const testData = testDoc.data();
+    const tubeTypes = tubeTypesSnapshot.docs.map((tubeDoc) => {
+      const tubeData = tubeDoc.data();
       return {
-        testID :  testDoc.id,
-        testName: testData.testName,
-        price: testData.price,
-        codeTube : testData.codeTube,
-        type : testData.type,
-        testGroup : testData.testGroup,
-        category : testData.category,
-        kodeTest : testData.kodeTest,
+        id: tubeDoc.id,
+        pictureTube: tubeData.pictureTube,
+        tubeName: tubeData.tubeName,
       };
     });
 
     // Log the response to check its format
-    console.log(selectedTests);
+    console.log(tubeTypes);
 
-    // Prepare a JSON response with only selectedTests
+    // Prepare a JSON response with only tubeTypes
     const response = {
-      selectedTests: selectedTests,
+      tubeTypes: tubeTypes,
       status: "success",
     };
 
