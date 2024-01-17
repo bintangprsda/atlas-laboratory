@@ -4,7 +4,7 @@ import { Button ,buttonVariants } from "@/components/ui/button";
 import {
   ChevronLeft, Copy 
 } from 'lucide-react';
-import { DialogDemo } from "./components/form"
+import { Modals } from "./components/form"
 
 
 
@@ -33,7 +33,7 @@ const SmartTube: React.FC = () => {
           Automated Tube Allocation Based on Laboratory Test Types
         </p>
       </div>
-      <DialogDemo />
+      <Modals />
        
       
 
