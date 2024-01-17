@@ -1,4 +1,4 @@
-const getTubeName = (code) => {
+export const getTubeName = (code) => {
   return {
     10: "EDTA",
     11: "MERAH S",

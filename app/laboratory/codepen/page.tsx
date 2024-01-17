@@ -17,7 +17,7 @@ import { Search } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { testData } from './testData';
-import { getTubeName } from './tubeNames';
+import { getTubeName } from './tubeName';
 
 const LabPage: React.FC = () => {
     const [selectedTests, setSelectedTests] = useState([]);
@@ -26,29 +26,35 @@ const LabPage: React.FC = () => {
     
   
     const handleCheckboxChange = (id, isChecked, testName, tab) => {
-      if (isChecked) {
-        setSelectedTests((prevTests) => [
-          ...prevTests,
-          { id, isSelected: true, testName, tab },
-        ]);
-  
-        const tubeCode = getTubeCode(id);
-        if (tubeCode && !selectedTubes.includes(tubeCode)) {
-          setSelectedTubes((prevTubes) => [...prevTubes, tubeCode]);
+        if (isChecked) {
+          setSelectedTests((prevTests) => [
+            ...prevTests,
+            { id, isSelected: true, testName, tab },
+          ]);
+      
+          const tubeCode = getTubeCode(id);
+          if (tubeCode && !selectedTubes.includes(tubeCode)) {
+            setSelectedTubes((prevTubes) => [...prevTubes, tubeCode]);
+          }
+        } else {
+          setSelectedTests((prevTests) => {
+            const filteredTests = prevTests.filter(
+              (test) => !(test.id === id && test.tab === tab)
+            );
+      
+            const remainingTubeCodes = filteredTests.map((test) => getTubeCode(test.id));
+      
+            return [
+              ...filteredTests,
+              ...remainingTubeCodes
+                .filter((tubeCode) => !selectedTubes.includes(tubeCode))
+                .map((tubeCode) => ({ id: tubeCode, isSelected: false, testName: '', tab: '' })),
+            ];
+          });
         }
-      } else {
-        setSelectedTests((prevTests) =>
-          prevTests.filter((test) => test.id !== id || test.tab !== tab)
-        );
-  
-        const tubeCode = getTubeCode(id);
-        if (tubeCode) {
-          setSelectedTubes((prevTubes) =>
-            prevTubes.filter((tube) => tube !== tubeCode)
-          );
-        }
-      }
-    };
+      };
+      
+      
   
     const handleRemoveTest = (id, tab) => {
         setSelectedTests((prevTests) =>
@@ -64,7 +70,6 @@ const LabPage: React.FC = () => {
       
         setSelectedTubes(uniqueTubeCodes);
       };
-  
     const getTubeCode = (testId) => {
         const findTest = (category) =>
           category.subcategories
@@ -78,16 +83,7 @@ const LabPage: React.FC = () => {
       };
       
   
-    const getTubeName = (code) => {
-      return {
-        10: "EDTA",
-        11: "MERAH S",
-        12: "MERAH K",
-        13: "SITRAT",
-        14: "HEPARIN",
-        15: "URINE",
-      }[code];
-    };
+  
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
