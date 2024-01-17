@@ -44,6 +44,7 @@ export async function GET() {
         id: tubeDoc.id,
         pictureTube: tubeData.pictureTube,
         tubeName: tubeData.tubeName,
+        codeTube: tubeData.codeTube,
       };
     });
 

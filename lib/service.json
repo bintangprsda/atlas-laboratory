@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "atlas-laboratory",
+  "private_key_id": "5258cc13485a16f4f3d9a1e2a09d91190f61d486",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCyDvClB6/JIL7+\nsJEK6vwAKf6IHLA3863txT3mARJ822UAfTLEr8OLgon0P8ql/NHyavGoJ3I5ddOQ\nb0IGH4404fdlZ3Z8FoeXCRYKpa2EVQx3xR6rLX5mcRKjl5grFhy3yzF5j6FHvcNV\ndA6uRzks5EPmG8BsaQxMvzM2odoCKN9m/gaS+6jtRxf8hAQguWF6XUYsCdQLfAtn\nEAUJVDdbsvrnq3OLzNoZeVlHBav7pNf0eWZ2qXE81OYRQzO8GtiUUi7TiKaX59n/\nHj6+LAKZkrQxPLdSG/WDK2WnmlLmHE4p0P4B7SNT/PHHChCNwG5EqQ98eauA2BvZ\nFnPvrxBxAgMBAAECggEAQ/zwZhNJS8L1KsrAlyqijm16gv5xSuwAvYlS2UAPjx02\ns7kaaX+zatGtW1YASuD+SVIMc+ib9NTIs53H2A60ffzKOi4HT9pKa6FMiUQ5vQ28\ndP8Pds0oNnV2aIC52bnXvVYYzhHJw1rx+u8Vq/YGHt4KDxMJplt2Ftfq9jFWzPuq\nnjQmnk6aLzbXmQX2vapLs7dNijs0cgtvIvRtiAMHgDB+m7mXXxqNh29dYaK3j/sn\nul8zEmDzG770XzmhjesQwyN6H2MfOkkQQb8wuBGCA5R45Z3QtTmwy7aZqo7tyRQG\nsvCw+LCZV78OVn8c7Cn/c/ZA0KJh7KdiO5rK7LarAQKBgQDpi2oOyZw8oNljRYbM\nANKSGJ3HwcgOr27hKnwMvHmrYdtIcxiHqLeyf018NjXp32oP2q8v+WFjkq+W2wIn\nO7z2SxUWWTsjkOJAjRifx88cIJlUESjj7cHsiPlIiNX8mKp6XGGvZa0DjgwWYbXM\n0WQCE4OSH4qmv79vXqQJsfsZgwKBgQDDLcJnjo6j+Rp8Pt7wuMVSrQLrFbUEZ9Z7\nmn7ZkHLwxYvCstprTppDaHGLDOHVO8roSitNjXHmah/oHD+7PMzf2WZfKNEghFFw\nvdASSNYWDV49fCmH5zENgVJ3yeQrf9cmOjVSxSe27kjbLOJ4U4h/hwWFzdeV82pc\n5dpzVJov+wKBgFC0K482njXZQ6XpZb5jXmC7/vIDhdWFTCSlIL7p9oWByFwN4eEn\nLWuSUD1nIlRSLv2RjU5fuAbHrsPLpL/YBeF6aqwRY71TmMvDtkmoq2pF3ZZOY7n3\n9DZ/0tz85C1ouCiWee85jIMY+BZX55ICnbOV+LZrDee3hTjAFKGBDotvAoGATixg\nxetyNDjMo+DmmFHZLrD/Dztlgjs4y87oaamSb98fiD7sfrg/zyng+EmTlj1ZmspC\nJ9C0Qw5UczoFSLAkeq/vccO+ZyC4IcjUss4beT+ndEbrt3Qg0IDwj+v8CHQury/3\nNYyjyIAODEMg/gKvFCz3SE1WwMd63XRul2zWSMsCgYEAi2Mm2p4sObJ1j1l5fSab\n0BnwX7DNunYeIWt2waq6vjO+3ZbZKDNPBEsB9sp9R96ndkN3zAVb2ejlYZFgllMN\nOS/g/8y5Fwoy2AxyW28iC7jE8VM23RLBnxzCJEsm+DiRZsE0ErRm5imDmuhEeMwD\n5gZ9udguyPLrWRH2jeeQ6ZM=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-sinxq@atlas-laboratory.iam.gserviceaccount.com",
+  "client_id": "114068249408144990848",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-sinxq%40atlas-laboratory.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
