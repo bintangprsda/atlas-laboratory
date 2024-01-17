@@ -32,33 +32,38 @@ export function Modals() {
   
 
   const handleCheckboxChange = (id, isChecked, testName, tab) => {
-      if (isChecked) {
-        setSelectedTests((prevTests) => [
-          ...prevTests,
-          { id, isSelected: true, testName, tab },
-        ]);
-    
-        const tubeCode = getTubeCode(id);
-        if (tubeCode && !selectedTubes.includes(tubeCode)) {
-          setSelectedTubes((prevTubes) => [...prevTubes, tubeCode]);
-        }
-      } else {
-        setSelectedTests((prevTests) => {
-          const filteredTests = prevTests.filter(
-            (test) => !(test.id === id && test.tab === tab)
-          );
-    
-          const remainingTubeCodes = filteredTests.map((test) => getTubeCode(test.id));
-    
-          return [
-            ...filteredTests,
-            ...remainingTubeCodes
-              .filter((tubeCode) => !selectedTubes.includes(tubeCode))
-              .map((tubeCode) => ({ id: tubeCode, isSelected: false, testName: '', tab: '' })),
-          ];
-        });
+    const test = testData[tab][0].subcategories
+      .flatMap((subcategory) => subcategory.tests)
+      .find((test) => test.id === id);
+  
+    if (isChecked) {
+      setSelectedTests((prevTests) => [
+        ...prevTests,
+        { id, isSelected: true, testName, tab, price: test?.price || 0 },
+      ]);
+  
+      const tubeCode = getTubeCode(id);
+      if (tubeCode && !selectedTubes.includes(tubeCode)) {
+        setSelectedTubes((prevTubes) => [...prevTubes, tubeCode]);
       }
-    };
+    } else {
+      setSelectedTests((prevTests) => {
+        const filteredTests = prevTests.filter(
+          (test) => !(test.id === id && test.tab === tab)
+        );
+  
+        const remainingTubeCodes = filteredTests.map((test) => getTubeCode(test.id));
+  
+        return [
+          ...filteredTests,
+          ...remainingTubeCodes
+            .filter((tubeCode) => !selectedTubes.includes(tubeCode))
+            .map((tubeCode) => ({ id: tubeCode, isSelected: false, testName: '', tab: '', price: 0 })),
+        ];
+      });
+    }
+  };
+  
     
     
 
@@ -222,18 +227,19 @@ export function Modals() {
       </div>
       <div className="ml-4 space-y-1">
         <p className="text-sm font-medium leading-none">
-          {index + 1}. {test.testName} ({test.tab})
+          {index + 1}. {test.testName} ({test.tab}) 
         </p>
-        <p className="text-sm text-muted-foreground">{test.id}</p>
+        <p className="text-sm text-muted-foreground">Price: {test.price}</p>
       </div>
       <div className="ml-auto font-light text-sm">
         <Button variant="ghost" size="icon" onClick={() => handleRemoveTest(test.id, test.tab)}>
-          <MoreVertical className="h-4 w-4" />
+          <Trash2 className="h-4 w-4" />
         </Button>
       </div>
     </div>
   ))}
 </div>
+
 
         </ScrollArea>
       </CardContent>
@@ -273,44 +279,7 @@ export function Modals() {
       </div>
       </div>
 
-      <div className="w-full h-full flex items-center justify-center">
-      <div className="w-full mx-auto max-w-[950] mb-5 grid md:grid-cols-2 gap-4">
-      <Card className="mb-4 md:mb-0">
-      <CardHeader>
-        <CardTitle>List Test</CardTitle>
-        <CardDescription>Select test laboratory</CardDescription>
-      </CardHeader>
-      <CardContent>
-      <Separator className="my-2" />
-        <ScrollArea className="h-[300px]">
-        <div className="grid gap-6">
-  {selectedTests.map((test, index) => (
-    <div key={test.id} className="flex items-center mt-4">
-      <div className="ml-3 h-8 w-8 flex items-center justify-center rounded-full">
-        <FlaskConical className="h-5 w-5" />
-      </div>
-      <div className="ml-4 space-y-1">
-        <p className="text-sm font-medium leading-none">
-          {index + 1}. {test.testName} ({test.tab})
-        </p>
-        <p className="text-sm text-muted-foreground">{test.id}</p>
-      </div>
-      <div className="ml-auto font-light text-sm">
-        <Button variant="ghost" size="icon" onClick={() => handleRemoveTest(test.id, test.tab)}>
-          <MoreVertical className="h-4 w-4" />
-        </Button>
-      </div>
-    </div>
-  ))}
-</div>
-
-        </ScrollArea>
-      </CardContent>
-    </Card>
-
-    
-      </div>
-      </div>
+     
 
     </>
   );
