@@ -19,26 +19,66 @@ import { Badge } from '@/components/ui/badge';
 import { testData } from './testData'; // Import testData
 
 const LabPage: React.FC = () => {
-  const [selectedTests, setSelectedTests] = useState([]);
-
-  const handleCheckboxChange = (id, isChecked, testName, tab) => {
-    if (isChecked) {
-      setSelectedTests((prevTests) => [
-        ...prevTests,
-        { id, isSelected: true, testName, tab },
-      ]);
-    } else {
+    const [selectedTests, setSelectedTests] = useState([]);
+    const [selectedTubes, setSelectedTubes] = useState([]);
+  
+    const handleCheckboxChange = (id, isChecked, testName, tab) => {
+      if (isChecked) {
+        setSelectedTests((prevTests) => [
+          ...prevTests,
+          { id, isSelected: true, testName, tab },
+        ]);
+  
+        const tubeCode = getTubeCode(id);
+        if (tubeCode && !selectedTubes.includes(tubeCode)) {
+          setSelectedTubes((prevTubes) => [...prevTubes, tubeCode]);
+        }
+      } else {
+        setSelectedTests((prevTests) =>
+          prevTests.filter((test) => test.id !== id || test.tab !== tab)
+        );
+  
+        const tubeCode = getTubeCode(id);
+        if (tubeCode) {
+          setSelectedTubes((prevTubes) =>
+            prevTubes.filter((tube) => tube !== tubeCode)
+          );
+        }
+      }
+    };
+  
+    const handleRemoveTest = (id, tab) => {
       setSelectedTests((prevTests) =>
         prevTests.filter((test) => test.id !== id || test.tab !== tab)
       );
-    }
-  };
-
-  const handleRemoveTest = (id, tab) => {
-    setSelectedTests((prevTests) =>
-      prevTests.filter((test) => test.id !== id || test.tab !== tab)
-    );
-  };
+  
+      const tubeCode = getTubeCode(id);
+      if (tubeCode) {
+        setSelectedTubes((prevTubes) =>
+          prevTubes.filter((tube) => tube !== tubeCode)
+        );
+      }
+    };
+  
+    const getTubeCode = (testId) => {
+      // Add the logic to retrieve the tube code based on the testId from your data
+      // For now, I assume it's directly mapped, update it based on your data structure.
+      return testData.front
+        .flatMap((category) => category.subcategories)
+        .flatMap((subcategory) => subcategory.tests)
+        .find((test) => test.id === testId)?.codeTube;
+    };
+  
+    const getTubeName = (code) => {
+      return {
+        10: "EDTA",
+        11: "MERAH S",
+        12: "MERAH K",
+        13: "SITRAT",
+        14: "HEPARIN",
+        15: "URINE",
+      }[code];
+    };
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
@@ -171,6 +211,16 @@ const LabPage: React.FC = () => {
                   </button>
                 </>
               )}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div id="selectedTubes">
+        <h2>Jenis Tabung yang Diperlukan:</h2>
+        <ul>
+          {selectedTubes.map((tubeCode) => (
+            <li key={tubeCode}>
+              {getTubeName(tubeCode)} (Kode {tubeCode})
             </li>
           ))}
         </ul>

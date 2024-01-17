@@ -8,7 +8,7 @@ export const testData = {
             tests: [
               { id: "01", codeTube: "10", name: "FULL BLOOD COUNT" },
               { id: "02", codeTube: "10", name: "COMPLETE BLOOD COUNT" },
-              { id: "03", codeTube: "10", name: "RETICULOCYTE COUNT" },
+              { id: "03", codeTube: "12", name: "RETICULOCYTE COUNT" },
             ],
           },
         ],
@@ -21,9 +21,9 @@ export const testData = {
           {
             name: "Tumor Marker",
             tests: [
-              { id: "04", codeTube: "10", name: "AFP" },
-              { id: "05", codeTube: "10", name: "HBSAG" },
-              { id: "06", codeTube: "10", name: "ANTI TOXOPLASMA IGG" },
+              { id: "04", codeTube: "13", name: "AFP" },
+              { id: "05", codeTube: "14", name: "HBSAG" },
+              { id: "06", codeTube: "15", name: "ANTI TOXOPLASMA IGG" },
             ],
             // ...Tambahkan subkategori lainnya sesuai kebutuhan
           },
