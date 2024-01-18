@@ -1,11 +1,12 @@
 export const getTubeName = (code) => {
     return {
-      10: "EDTA",
+      30: "EDTA",
       11: "MERAH S",
-      12: "MERAH K",
-      13: "SITRAT",
-      14: "HEPARIN",
-      15: "URINE",
+      10: "MERAH K",
+      40: "SITRAT",
+      62: "HEPARIN",
+      20: "URINE",
     }[code];
   };
   
+

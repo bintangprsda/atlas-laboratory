@@ -14,6 +14,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Search, MoreVertical , PlusCircle, Trash2, FlaskConical  } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -23,13 +29,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { testData } from './testData';
-import { getTubeName } from './tubeName';
+import { getTubeName} from './tubeName';
+import { getTubeColorClass } from './tubeColor';
 
 export function Modals() {
   const [selectedTests, setSelectedTests] = useState([]);
   const [selectedTubes, setSelectedTubes] = useState([]);
-
-  
 
   const handleCheckboxChange = (id, isChecked, testName, tab) => {
     const test = testData[tab][0].subcategories
@@ -37,15 +42,28 @@ export function Modals() {
       .find((test) => test.id === id);
   
     if (isChecked) {
-      setSelectedTests((prevTests) => [
-        ...prevTests,
-        { id, isSelected: true, testName, tab, price: test?.price || 0 },
-      ]);
+      setSelectedTests((prevTests) => {
+        const existingTest = prevTests.find((t) => t.id === id && t.tab === tab);
+        if (existingTest) {
+          // Test already exists, update it
+          return prevTests.map((t) =>
+            t.id === id && t.tab === tab
+              ? { ...t, isSelected: true, testName, price: test?.price || 0 }
+              : t
+          );
+        } else {
+          // New test, add it
+          const tubeCode = getTubeCode(id);
+          if (tubeCode && !selectedTubes.includes(tubeCode)) {
+            setSelectedTubes((prevTubes) => [...new Set([...prevTubes, tubeCode])]);
+          }
   
-      const tubeCode = getTubeCode(id);
-      if (tubeCode && !selectedTubes.includes(tubeCode)) {
-        setSelectedTubes((prevTubes) => [...prevTubes, tubeCode]);
-      }
+          return [
+            ...prevTests,
+            { id, isSelected: true, testName, tab, price: test?.price || 0 },
+          ];
+        }
+      });
     } else {
       setSelectedTests((prevTests) => {
         const filteredTests = prevTests.filter(
@@ -54,19 +72,31 @@ export function Modals() {
   
         const remainingTubeCodes = filteredTests.map((test) => getTubeCode(test.id));
   
+        // Update selectedTubes only if the test being removed is the last with its tubeCode
+        if (!filteredTests.some((test) => getTubeCode(test.id) === getTubeCode(id))) {
+          const uniqueTubeCodes = [...new Set(remainingTubeCodes)];
+          setSelectedTubes(uniqueTubeCodes);
+        }
+  
         return [
           ...filteredTests,
           ...remainingTubeCodes
             .filter((tubeCode) => !selectedTubes.includes(tubeCode))
-            .map((tubeCode) => ({ id: tubeCode, isSelected: false, testName: '', tab: '', price: 0 })),
+            .map((tubeCode) => ({
+              id: tubeCode,
+              isSelected: false,
+              testName: '',
+              tab: '',
+              price: 0,
+            })),
         ];
       });
     }
   };
   
-    
-    
-
+  
+  
+  
   const handleRemoveTest = (id, tab) => {
       setSelectedTests((prevTests) =>
         prevTests.filter((test) => !(test.id === id && test.tab === tab))
@@ -93,8 +123,8 @@ export function Modals() {
       return frontTest?.codeTube || backTest?.codeTube;
     };
 
+    
 
-  
     return (
     <>
         <Dialog>
@@ -219,11 +249,13 @@ export function Modals() {
       <CardContent>
       <Separator className="my-2" />
         <ScrollArea className="h-[300px]">
-        <div className="grid gap-6">
+     
+
+<div className="grid gap-6">
   {selectedTests.map((test, index) => (
     <div key={test.id} className="flex items-center mt-4">
-      <div className="ml-3 h-8 w-8 flex items-center justify-center rounded-full">
-        <FlaskConical className="h-5 w-5" />
+      <div className={`ml-3 h-10 w-10 flex items-center justify-center rounded-sm ${getTubeColorClass(getTubeCode(test.id))}`}>
+        <FlaskConical className="h-5 w-5 text-white" />
       </div>
       <div className="ml-4 space-y-1">
         <p className="text-sm font-medium leading-none">
@@ -232,13 +264,24 @@ export function Modals() {
         <p className="text-sm text-muted-foreground">Price: {test.price}</p>
       </div>
       <div className="ml-auto font-light text-sm">
+      <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
         <Button variant="ghost" size="icon" onClick={() => handleRemoveTest(test.id, test.tab)}>
           <Trash2 className="h-4 w-4" />
         </Button>
-      </div>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Remove</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+        </div>
     </div>
   ))}
 </div>
+
+
 
 
         </ScrollArea>
@@ -247,7 +290,7 @@ export function Modals() {
 
     <Card className="mb-4 md:mb-0">
       <CardHeader>
-        <CardTitle>List Test</CardTitle>
+        <CardTitle>Tube List</CardTitle>
         <CardDescription>Select test laboratory</CardDescription>
       </CardHeader>
       <CardContent>
@@ -256,8 +299,8 @@ export function Modals() {
         <div className="grid gap-6">
   {selectedTubes.map((tubeCode) => (
     <div key={tubeCode} className="flex items-center mt-4">
-      <div className="ml-3 h-8 w-8 flex items-center justify-center rounded-full">
-        <FlaskConical className="h-5 w-5" />
+      <div className={`ml-3 h-10 w-10 flex items-center justify-center rounded-sm ${getTubeColorClass(tubeCode)}`}>
+        <FlaskConical className="h-5 w-5 text-white"  />
       </div>
       <div className="ml-4 space-y-1">
         <p className="text-sm font-medium leading-none">{getTubeName(tubeCode)}</p>
@@ -271,6 +314,7 @@ export function Modals() {
     </div>
   ))}
 </div>
+
 
 
         </ScrollArea>
