@@ -3,7 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import {
   ChevronLeft,
 } from 'lucide-react';
-import RegistrationForm from "./components/registration-form";
+import RegistrationForm from "./components/form-test";
 
 
 const Registrasi: React.FC = () => {
