@@ -55,7 +55,8 @@ const RegistrationForm = () => {
   }, []); //
 
   return (
-    <Card>
+    <div className="ml-6 mr-6 mb-2 grid gap-4">
+      <Card className="mb-4 md:mb-0">
       <CardHeader>
         <CardTitle>Patient data</CardTitle>
         <CardDescription>Input data patient</CardDescription>
@@ -113,85 +114,9 @@ const RegistrationForm = () => {
             </Select>
           </div>
         </div>
-        <Separator className="my-1" />
       </CardContent>
-      <div className="ml-6 mr-6 mb-5 grid md:grid-cols-2 gap-4">
-        <Card className="mb-4 md:mb-0">
-          <CardHeader>
-            <CardTitle>Test Laboratory</CardTitle>
-            <CardDescription>
-              Select your test laboratory
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Separator className="my-2" />
-            <div className="space-y-4">
-              <div className="relative">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input placeholder="Search" className="pl-8" />
-              </div>
-              <div className="grid gap-6">
-              <ScrollArea className="h-[300px]">
-                {selectedTests.map((test, index) => (
-                  <div key={index} className="flex mt-2 items-center hover:bg-secondary/80 rounded-lg justify-between space-x-4">
-                    <div className="flex items-center space-x-4">
-                      <div className="h-8 w-8 flex items-center justify-center rounded-full">
-                        <FlaskConical className="h-5 w-5" />
-                      </div>
-                    <div>
-                      <h2 className="text-sm font-extrabold leading-none">
-                        {`${test.testName}`}
-                      </h2>
-                    <div className="flex items-center space-x-2 mt-1">
-                       <p className="text-xs text-muted-foreground">{`Rp. ${test.price}`}</p>
-                  </div>
-                </div>
-                </div>
-                  <Button variant="ghost" size="icon">
-                    <PlusCircle className="h-4 w-4" />
-                  </Button>
-              </div>
-                  ))}
-              </ScrollArea>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Add test</CardTitle>
-            <CardDescription>
-              -
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Separator className="my-2" />
-            <div className="space-y-4">
-              <div className="grid gap-6">
-                <ScrollArea className="h-[300px]">
-                  <div className="flex mt-2 items-center justify-between space-x-4">
-                    <div className="flex items-center space-x-4">
-                      
-
-                    </div>
-                    <Button variant="ghost" size="icon">
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-
-                  </div>
-                </ScrollArea>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-      
-      <CardFooter className="justify-between space-x-2">
-        <Button variant="ghost" className="w-full sm:w-auto">Clear</Button>
-        <Button className="w-full sm:w-auto">Submit</Button>
-      </CardFooter>
-
     </Card>
+   </div>
   );
 };
 

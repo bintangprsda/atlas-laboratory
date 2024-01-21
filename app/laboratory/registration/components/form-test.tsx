@@ -26,8 +26,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Search, Trash2, PlusCircle, FlaskConical } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import RegistrationForm from "./registration-form";
 
-const RegistrationForm = () => {
+const FormTest = () => {
   const [selectedTests, setSelectedTests] = useState([]);
   const [addedTests, setAddedTests] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -73,6 +74,7 @@ const RegistrationForm = () => {
 
   return (
     <>
+    <RegistrationForm/>
       <div className="ml-6 mr-6 mb-5 grid md:grid-cols-2 gap-4">
       <Card className="mb-4 md:mb-0">
           <CardHeader>
@@ -101,7 +103,7 @@ const RegistrationForm = () => {
                         {`${test.testName}`}
                       </h2>
                       <div className="flex items-center space-x-2 mt-1">
-                        <p className="text-xs text-muted-foreground">{`${test.price}`}</p>
+                        <p className="text-xs text-muted-foreground">{`Rp. ${test.price}`}</p>
                       </div>
                     </div>
                   </div>
@@ -128,7 +130,7 @@ const RegistrationForm = () => {
                       <div className="flex items-center space-x-4">
                         <p className="text-sm font-extrabold leading-none">{`${index + 1}. ${test.testName}`}</p>
                         <div className="flex items-center space-x-2 mt-1">
-                          <p className="text-xs text-muted-foreground">{`${test.price}`}</p>
+                          <p className="text-xs text-muted-foreground">{`Rp. ${test.price}`}</p>
                         </div>
                       </div>
                       <Button variant="ghost" size="icon" onClick={() => handleRemoveTest(index)}>
@@ -139,7 +141,7 @@ const RegistrationForm = () => {
                 </ScrollArea>
                 <div>
                 <p className="text-sm font-bold">Total Price:</p>
-                <p className="text-lg font-extrabold">{Number(calculateTotal())}</p>
+                <p className="text-lg font-extrabold">Rp. {Number(calculateTotal())}</p>
               </div>
               </div>
             </div>
@@ -148,11 +150,10 @@ const RegistrationForm = () => {
       </div>
 
       <CardFooter className="justify-between space-x-2">
-        <Button variant="ghost" className="w-full sm:w-auto">Clear</Button>
         <Button className="w-full sm:w-auto">Submit</Button>
       </CardFooter>
     </>
   );
 };
 
-export default RegistrationForm;
+export default FormTest;
