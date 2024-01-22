@@ -3,7 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import {
   ChevronLeft,
 } from 'lucide-react';
-import FormTest from "./components/form-test";
+import RegistrationForm from "./components/registration-form";
 
 
 
@@ -30,8 +30,7 @@ const Registrasi: React.FC = () => {
           Patient Data Input and Lab Examination Type Selection
         </p>
       </div>
-      
-      <FormTest/>
+      <RegistrationForm/>
     </section>
   );
 };

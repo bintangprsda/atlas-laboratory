@@ -1,4 +1,4 @@
-// pages/api/route.ts
+// pages/api/post/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import * as admin from "firebase-admin";
 
@@ -13,14 +13,32 @@ if (!admin.apps.length) {
 
 const orderTestCollection = admin.firestore().collection('orderTest');
 
+function calculateTotal(selectedTests: Array<{ testName: string; price: number }>): number {
+  return selectedTests.reduce((total, test) => total + test.price, 0);
+}
+
 async function addOrderTestData(orderTest: {
   namaPasien: string;
-  namaRS: string;
+  noMR: string;
   status: string;
   tanggalKirim: string;
+  tanggalLahir: string;
+  namaDokter: string;
+  diagnosa: string;
+  labRujukan: string;
+  gender: string;
+  selectedTests: Array<{ testName: string; price: number }>;
 }): Promise<{ status: string }> {
   try {
-    await orderTestCollection.add(orderTest);
+    const totalPrice = calculateTotal(orderTest.selectedTests);
+
+    const orderDataWithTotal = {
+      ...orderTest,
+      total: totalPrice, // Add total field
+    };
+
+    await orderTestCollection.add(orderDataWithTotal);
+
     return { status: "success" };
   } catch (error) {
     console.error("Error adding data:", error);
@@ -35,13 +53,46 @@ export async function POST(request: NextRequest) {
       throw new Error("Firebase is not connected");
     }
 
-    const { namaPasien, namaRS, status, tanggalKirim } = await request.json();
+    const {
+      namaPasien,
+      noMR,
+      status,
+      tanggalKirim,
+      tanggalLahir,
+      namaDokter,
+      diagnosa,
+      labRujukan,
+      gender,
+      selectedTests,
+    } = await request.json();
 
-    if (!namaPasien || !namaRS || !status || !tanggalKirim) {
+    if (
+      !namaPasien ||
+      !noMR ||
+      !status ||
+      !tanggalKirim ||
+      !tanggalLahir ||
+      !namaDokter ||
+      !diagnosa ||
+      !labRujukan ||
+      !gender ||
+      !selectedTests
+    ) {
       return NextResponse.json({ message: "Invalid data", status: "error" });
     }
 
-    await addOrderTestData({ namaPasien, namaRS, status, tanggalKirim });
+    await addOrderTestData({
+      namaPasien,
+      noMR,
+      status,
+      tanggalKirim,
+      tanggalLahir,
+      namaDokter,
+      diagnosa,
+      labRujukan,
+      gender,
+      selectedTests,
+    });
 
     const response = {
       message: "Data orderTest berhasil ditambahkan",
@@ -51,6 +102,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(response);
   } catch (error) {
     console.error("Error in POST endpoint:", error);
-    return NextResponse.json({ message: "Error in POST endpoint", status: "error", error: error.message });
+    return NextResponse.json({
+      message: "Error in POST endpoint",
+      status: "error",
+      error: error.message,
+    });
   }
 }

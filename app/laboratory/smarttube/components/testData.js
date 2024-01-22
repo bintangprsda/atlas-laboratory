@@ -21,9 +21,9 @@ export const testData = {
         {
           name: "Tumor Marker",
           tests: [
-            { id: "04", codeTube: "11", name: "AFP", price: 200000 },
-            { id: "05", codeTube: "11", name: "HBSAG", price: 200000 },
-            { id: "06", codeTube: "11", name: "ANTI TOXOPLASMA IGG", price: 200000 },
+            { id: "04", codeTube: "10", name: "AFP", price: 200000 },
+            { id: "05", codeTube: "10", name: "HBSAG", price: 200000 },
+            { id: "06", codeTube: "10", name: "ANTI TOXOPLASMA IGG", price: 200000 },
           ],
           // ...Tambahkan subkategori lainnya sesuai kebutuhan
         },

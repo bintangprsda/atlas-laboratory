@@ -10,39 +10,25 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Separator } from "@/components/ui/separator"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Search, Trash2, PlusCircle, FlaskConical } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import RegistrationForm from "./registration-form";
 
 const FormTest = () => {
   const [selectedTests, setSelectedTests] = useState([]);
   const [addedTests, setAddedTests] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("../../api/labtest");
+        const response = await fetch('../../api/labtest');
         const data = await response.json();
 
         const { selectedTests } = data;
         setSelectedTests(selectedTests);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
         // Handle error
       }
     };
@@ -70,11 +56,36 @@ const FormTest = () => {
     test.testName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleSubmit = async () => {
+    try {
+      const total = calculateTotal();
+      const response = await fetch('../../../api/post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          // Include other form data as needed
+          selectedTests: addedTests,
+          total, // Add the total field
+        }),
+      });
+
+      const data = await response.json();
+
+      // Handle the response from the server
+      console.log(data);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      // Handle error
+    }
+  };
+
+
   
 
   return (
     <>
-    <RegistrationForm/>
       <div className="ml-6 mr-6 mb-5 grid md:grid-cols-2 gap-4">
       <Card className="mb-4 md:mb-0">
           <CardHeader>
@@ -147,11 +158,8 @@ const FormTest = () => {
             </div>
           </CardContent>
         </Card>
+        <Button onClick={handleSubmit}>Submit Form</Button>
       </div>
-
-      <CardFooter className="justify-between space-x-2">
-        <Button className="w-full sm:w-auto">Submit</Button>
-      </CardFooter>
     </>
   );
 };

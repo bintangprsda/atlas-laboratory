@@ -1,18 +1,16 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-
+import {Form } from "@/components/ui/form"
 import {
   Select,
   SelectContent,
@@ -20,39 +18,72 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Separator } from "@/components/ui/separator"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Search, Trash2, PlusCircle, FlaskConical } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button";
+import FormTest from "./form-test";
 
-
-
-const RegistrationForm = () => {
-  const [selectedTests, setSelectedTests] = useState([]);
+const RegistrationForm = ({ onSubmit = () => {} }) => {
+  const [formData, setFormData] = useState({
+    namaPasien: '',
+    noMR: '',
+    status: 'Dikirim',
+    tanggalKirim: '',
+    tanggalLahir: '',
+    namaDokter: '',
+    diagnosa: '',
+    labRujukan: 'SH Lippo Village',
+    gender: '',
+  });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch data from your API endpoint
-        const response = await fetch("../../api/labtest");
-        const data = await response.json();
+    // Set default value for tanggalKirim when component mounts
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const defaultTanggalKirim = `${day}-${month}-${year} ${hours}:${minutes}`;
 
-        // Extract selectedTests from the response
-        const { selectedTests } = data;
+    setFormData((prevData) => ({
+      ...prevData,
+      tanggalKirim: prevData.tanggalKirim || defaultTanggalKirim,
+    }));
+  }, []); // Empty dependency array ensures this effect runs only once on mount
 
-        // Update state with selectedTests
-        setSelectedTests(selectedTests);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        // Handle error
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  
+  
+  const handleSubmit = async () => {
+    try {
+      console.log('Submitting form:', formData);
+      const response = await fetch('../../../api/post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add data');
       }
-    };
 
-    // Call the fetchData function
-    fetchData();
-  }, []); //
+      const data = await response.json();
+      console.log("Response:", data);
+
+      // Invoke the onSubmit function with the form data
+      onSubmit(formData);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
 
   return (
     <div className="ml-6 mr-6 mb-2 grid gap-4">
@@ -62,60 +93,118 @@ const RegistrationForm = () => {
         <CardDescription>Input data patient</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-6">
+      <Form>
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="subject">Medical Record</Label>
-            <Input id="subject" name="medicalrecord" type="number" placeholder="Input Number MR..." />
+            <Label htmlFor="noMR">Medical Record</Label>
+            <Input
+              id="noMR"
+              name="noMR"
+              type="number"
+              placeholder="Input Number MR..."
+              value={formData.noMR}
+              onChange={handleChange}
+            />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="subject">Patient Name</Label>
-            <Input id="patientName" name="patientName" type="text" placeholder="Input Patient Name..." />
+            <Label htmlFor="namaPasien">Patient Name</Label>
+            <Input
+              id="namaPasien"
+              name="namaPasien"
+              type="text"
+              placeholder="Input Patient Name..."
+              value={formData.namaPasien}
+              onChange={handleChange}
+            />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="subject">Date of Birth</Label>
-            <Input id="birth" name="birth" type="date" placeholder="I need help with..." />
+            <Label htmlFor="tanggalLahir">Date of Birth</Label>
+            <Input
+              id="tanggalLahir"
+              name="tanggalLahir"
+              type="date"
+              value={formData.tanggalLahir}
+              onChange={handleChange}
+            />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="subject">Gender</Label>
-            <RadioGroup defaultValue="option-one">
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="option-one" id="option-one" />
-                  <Label htmlFor="option-one">Male</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="option-two" id="option-two" />
-                  <Label htmlFor="option-two">Female</Label>
-                </div>
+            <Label htmlFor="gender">Gender</Label>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  id="male"
+                  name="gender"
+                  value="Male"
+                  checked={formData.gender === "Male"}
+                  onChange={handleChange}
+                />
+                <label htmlFor="male">Male</label>
               </div>
-            </RadioGroup>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  id="female"
+                  name="gender"
+                  value="Female"
+                  checked={formData.gender === "Female"}
+                  onChange={handleChange}
+                />
+                <label htmlFor="female">Female</label>
+              </div>
+            </div>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="subject">Doctor Name</Label>
-            <Input id="doctorName" name="doctorName" type="text" placeholder="Input name doctor..." />
+            <Label htmlFor="namaDokter">Doctor Name</Label>
+            <Input
+              id="namaDokter"
+              name="namaDokter"
+              type="text"
+              placeholder="Input name doctor..."
+              value={formData.namaDokter}
+              onChange={handleChange}
+            />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="subject">Diagnosa</Label>
-            <Input id="diagnosa" name="diagnosa" type="text" placeholder="Input name doctor..." />
+            <Label htmlFor="diagnosa">Diagnosa</Label>
+            <Input
+              id="diagnosa"
+              name="diagnosa"
+              type="text"
+              placeholder="Input diagnosa..."
+              value={formData.diagnosa}
+              onChange={handleChange}
+            />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="security-level">Send to Laboratory</Label>
-            <Select defaultValue="2">
-              <SelectTrigger id="security-level">
-                <SelectValue placeholder="Select level" />
+            <Label htmlFor="labRujukan">Send to Laboratory</Label>
+            <Select
+              id="labRujukan"
+              name="labRujukan"
+              value={formData.labRujukan}
+              onChange={(selectedValue) => handleChange({ target: { name: 'labRujukan', value: selectedValue } })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="SH Lippo Village" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="1">SH Lippo Village</SelectItem>
-                <SelectItem value="2">SH Kebon Jeruk</SelectItem>
-                <SelectItem value="3">SH MRCCC</SelectItem>
+                <SelectItem value="SH Lippo Village">SH Lippo Village</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
+      </Form>
+
       </CardContent>
+      <CardFooter className="justify-between space-x-2">
+      <Button onClick={handleSubmit} className="w-full sm:w-auto">
+          Submit
+        </Button>
+      </CardFooter>
     </Card>
+   <FormTest/>
    </div>
   );
 };
