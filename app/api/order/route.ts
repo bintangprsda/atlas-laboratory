@@ -23,11 +23,19 @@ async function getOrderTestData() {
     // Mengubah data snapshot 'orderTest' menjadi array dengan properti yang spesifik
     const orderTests = orderTestSnapshot.docs.map((orderTestDoc) => {
       const orderTestData = orderTestDoc.data();
+
+      // Creating selectedTests array
+      const selectedTests = orderTestData.selectedTests?.map(test => ({
+        price: test.price || null,
+        testName: test.testName || null,
+      })) || [];
+
       return {
         namaPasien: orderTestData.namaPasien,
         namaRS: orderTestData.namaRS,
         status: orderTestData.status,
         tanggalKirim: orderTestData.tanggalKirim,
+        selectedTests, // Include selectedTests array
       };
     });
 
