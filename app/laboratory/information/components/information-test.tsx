@@ -30,10 +30,10 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Search, FlaskConical, PlusCircle, Trash2  } from "lucide-react"
 import { Input } from "@/components/ui/input"
 
-
 const InformationTest = () => {
   const [selectedTests, setSelectedTests] = useState([]);
   const [selectedTestDetail, setSelectedTestDetail] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,6 +58,10 @@ const InformationTest = () => {
     setSelectedTestDetail(null);
   };
 
+  const filteredTests = selectedTests.filter((test) =>
+    test.testName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="grid md:grid-cols">
       <Card className="col-span-3">
@@ -66,12 +70,17 @@ const InformationTest = () => {
           <CardDescription>Test laboratory</CardDescription>
           <div className="relative">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search test..." className="pl-8 w-full sm:w-[500px] md:w-[950px]" />
+            <Input
+              placeholder="Search test..."
+              className="pl-8 w-full sm:w-[500px] md:w-[950px]"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
         </CardHeader>
         <CardContent>
           <ScrollArea className="h-[300px]">
-            {selectedTests.map((test, index) => (
+            {filteredTests.map((test, index) => (
               <div key={index} className="flex mt-2 items-center justify-between space-x-4 hover:bg-secondary/80 rounded-lg">
                 <div className="flex items-center space-x-4">
                   <div className="h-8 w-8 flex items-center justify-center rounded-full">
