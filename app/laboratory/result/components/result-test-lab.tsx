@@ -14,6 +14,7 @@ import { UserCheck } from "lucide-react";
 
 const ResultTestLab = () => {
   const [orderTests, setOrderTests] = useState([]);
+  const [selectedOrderTest, setSelectedOrderTest] = useState(null);
 
   useEffect(() => {
     // Fetch orderTest data when the component mounts
@@ -30,8 +31,13 @@ const ResultTestLab = () => {
     fetchOrderTestData();
   }, []);
 
+  const handleOrderTestClick = (orderTest) => {
+    setSelectedOrderTest(orderTest);
+  };
+
   return (
     <div className="grid md:grid-cols">
+      {/* Order Test List Section */}
       <Card className="col-span-3">
         <CardHeader>
           <CardTitle>Order Date</CardTitle>
@@ -47,7 +53,8 @@ const ResultTestLab = () => {
                 .map((orderTest, index) => (
                   <div
                     key={index}
-                    className="flex items-center hover:bg-secondary/80 rounded-lg p-2"
+                    className="flex items-center hover:bg-secondary/80 rounded-lg p-2 cursor-pointer"
+                    onClick={() => handleOrderTestClick(orderTest)}
                   >
                     <div className="h-8 w-8 flex items-center justify-center rounded-full">
                       <UserCheck className="h-7 w-7" />
@@ -72,6 +79,21 @@ const ResultTestLab = () => {
           </ScrollArea>
         </CardContent>
       </Card>
+
+      {/* Details Section */}
+      {selectedOrderTest && (
+        <Card className="mt-5 col-span-3">
+          <CardHeader>
+            <CardTitle>{selectedOrderTest.namaPasien}</CardTitle>
+            <CardDescription>{selectedOrderTest.namaRS}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>Tanggal Kirim: {selectedOrderTest.tanggalKirim}</p>
+            <p>Status: {selectedOrderTest.status}</p>
+            {/* Add more details as needed */}
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };

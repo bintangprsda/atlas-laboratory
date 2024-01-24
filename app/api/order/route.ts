@@ -32,6 +32,11 @@ async function getOrderTestData() {
 
       return {
         namaPasien: orderTestData.namaPasien,
+        noMR:orderTestData.noMR,
+        documentNumber : orderTestData.documentNumber,
+        namaDokter: orderTestData.namaDokter,
+        jenisKelamin:orderTestData.jenisKelamin,
+        tanggalLahir: orderTestData.tanggalLahir,
         namaRS: orderTestData.namaRS,
         status: orderTestData.status,
         tanggalKirim: orderTestData.tanggalKirim,

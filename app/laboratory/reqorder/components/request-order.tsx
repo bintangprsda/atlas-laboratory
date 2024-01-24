@@ -7,10 +7,13 @@ import {
   CardHeader,
   CardDescription,
   CardTitle,
+  CardFooter,
 } from "@/components/ui/card";
 import DatePicker from "./date-picker";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { UserCheck } from "lucide-react";
+import { AcceptOrder } from "./accept"
+import { CancelOrder } from "./cancel"
 
 const OrderRequest = () => {
   const [orderTests, setOrderTests] = useState([]);
@@ -37,6 +40,8 @@ const OrderRequest = () => {
   };
 
   return (
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-full mx-auto max-w-[950] mb-5 grid md:grid-cols-2 gap-4">
     <div className="grid md:grid-cols">
       {/* Order Test List Section */}
       <Card className="col-span-3">
@@ -82,18 +87,21 @@ const OrderRequest = () => {
           </ScrollArea>
         </CardContent>
       </Card>
+      </div>
 
+      <div className="grid md:grid-cols">
       {selectedOrderTest && (
-        <Card className="mt-5 col-span-3">
+        <Card className="col-span-3">
           <CardHeader>
             <CardTitle>{selectedOrderTest.namaPasien}</CardTitle>
             <CardDescription>{selectedOrderTest.namaRS}</CardDescription>
           </CardHeader>
           <CardContent>
-            <p>Tanggal Kirim: {selectedOrderTest.tanggalKirim}</p>
-            <p>Status: {selectedOrderTest.status}</p>
+          <ScrollArea className="h-[300px]">
+            <p className="text-xs text-muted-foreground">No. Reg: {selectedOrderTest.documentNumber}</p>
+
             {Array.isArray(selectedOrderTest.selectedTests) ? (
-              <div>
+              <div className="text-sm text-muted-foreground">
                 {selectedOrderTest.selectedTests.map((test, index) => (
                   <div key={index}>
                     <p>Price: {test.price}</p>
@@ -108,10 +116,18 @@ const OrderRequest = () => {
               </>
             )}
             {/* Add more details as needed */}
+            </ScrollArea>
           </CardContent>
+          <CardFooter className="justify-between space-x-2">
+          <CancelOrder/>
+          <AcceptOrder/>
+          </CardFooter>
         </Card>
       )}
+      </div>
     </div>
+    </div>
+    
   );
 };
 
