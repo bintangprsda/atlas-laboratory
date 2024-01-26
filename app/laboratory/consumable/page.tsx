@@ -3,7 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import {
   ChevronLeft,
 } from 'lucide-react';
-
+import UserCard from "./components/user-card";
 
 const Consumable: React.FC = () => {
   return (
@@ -28,6 +28,7 @@ const Consumable: React.FC = () => {
           Request for Items for Blood Collection Preparation from Wards
         </p>
       </div>
+      <UserCard/>
     </section>
 
   );

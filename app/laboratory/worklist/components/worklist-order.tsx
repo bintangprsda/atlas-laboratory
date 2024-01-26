@@ -26,6 +26,7 @@ import {
 import DatePicker from "./date-picker";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { UserCheck } from "lucide-react";
+import FileUpload from './file-upload';
 
 const WorkList = () => {
   const [orderTests, setOrderTests] = useState([]);
@@ -101,7 +102,7 @@ const WorkList = () => {
       {/* Details Section */}
       {selectedOrderTest && (
         <Card className="col-span-3">
-        <CardHeader>
+       <CardHeader>
           <CardTitle>{selectedOrderTest.namaPasien}</CardTitle>
           <CardDescription>{selectedOrderTest.namaRS}</CardDescription>
         </CardHeader>
@@ -111,49 +112,41 @@ const WorkList = () => {
 
           {Array.isArray(selectedOrderTest.selectedTests) ? (
             <div className="text-sm text-muted-foreground">
-              {selectedOrderTest.selectedTests.map((test, index) => (
-                <div key={index}>
-                 <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px]">No</TableHead>
-                      <TableHead className="flex-1">Test Name</TableHead>
-                      <TableHead className="w-[min-content] text-right">Price</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="font-medium">1</TableCell>
-                      <TableCell className="flex-1">
-                          {test.testName}
-                      </TableCell>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[100px]">No</TableHead>
+                    <TableHead className="flex-1">Test Name</TableHead>
+                    <TableHead className="w-[min-content] text-right">Price</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {selectedOrderTest.selectedTests.map((test, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium">{index + 1}</TableCell>
+                      <TableCell className="flex-1">{test.testName}</TableCell>
                       <TableCell className="w-[min-content] text-right">{test.price}</TableCell>
                     </TableRow>
-                  </TableBody>
-                  <TableFooter>
-                    <TableRow>
-                      <TableCell colSpan={2}>Total</TableCell>
-                      <TableCell className="text-right">{selectedOrderTest.totalHarga}</TableCell>
-                    </TableRow>
-                  </TableFooter>
-                </Table>
-
-                </div>
-              ))}
+                  ))}
+                </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TableCell colSpan={2}>Total</TableCell>
+                    <TableCell className="text-right">{selectedOrderTest.totalHarga}</TableCell>
+                  </TableRow>
+                </TableFooter>
+              </Table>
             </div>
-          ) : (
-            <>
-              
-              
-            </>
-          )}
+              ) : (
+                <></>
+              )}
+
           {/* Add more details as needed */}
           </div>
         </CardContent>
           <CardFooter className="justify-between space-x-2">
-            <Label htmlFor="filePDF">Upload</Label>
-                <Input id="resultTest" type="file" />
-                <Button type="button" variant="secondary">
+            <FileUpload/>
+            <Button type="button" variant="secondary">
               Upload
             </Button>
           </CardFooter>

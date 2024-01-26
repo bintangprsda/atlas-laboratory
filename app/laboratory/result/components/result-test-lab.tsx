@@ -24,11 +24,13 @@ import {
 } from "@/components/ui/card";
 import DatePicker from "./date-picker";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { UserCheck } from "lucide-react";
+import { UserCheck, Eye } from "lucide-react";
+import ShowResult from "./show-result"
 
 const ResultTestLab = () => {
   const [orderTests, setOrderTests] = useState([]);
   const [selectedOrderTest, setSelectedOrderTest] = useState(null);
+
 
   useEffect(() => {
     // Fetch orderTest data when the component mounts
@@ -45,11 +47,16 @@ const ResultTestLab = () => {
     fetchOrderTestData();
   }, []);
 
+  const [showResultModal, setShowResultModal] = useState(false);
+
   const handleOrderTestClick = (orderTest) => {
     setSelectedOrderTest(orderTest);
+    setShowResultModal(true); // Show the modal when an order test is clicked
   };
 
   return (
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-full mx-auto max-w-[950] mb-5 grid md:grid-cols-2 gap-4">
     <div className="grid md:grid-cols">
       {/* Order Test List Section */}
       <Card className="col-span-3">
@@ -93,7 +100,8 @@ const ResultTestLab = () => {
           </ScrollArea>
         </CardContent>
       </Card>
-
+      </div>
+      <div className="grid md:grid-cols">
       {/* Details Section */}
       {selectedOrderTest && (
         <Card className="col-span-3">
@@ -107,54 +115,47 @@ const ResultTestLab = () => {
 
           {Array.isArray(selectedOrderTest.selectedTests) ? (
             <div className="text-sm text-muted-foreground">
-              {selectedOrderTest.selectedTests.map((test, index) => (
-                <div key={index}>
-                 <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px]">No</TableHead>
-                      <TableHead className="flex-1">Test Name</TableHead>
-                      <TableHead className="w-[min-content] text-right">Price</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="font-medium">1</TableCell>
-                      <TableCell className="flex-1">
-                          {test.testName}
-                      </TableCell>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[100px]">No</TableHead>
+                    <TableHead className="flex-1">Test Name</TableHead>
+                    <TableHead className="w-[min-content] text-right">Price</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {selectedOrderTest.selectedTests.map((test, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium">{index + 1}</TableCell>
+                      <TableCell className="flex-1">{test.testName}</TableCell>
                       <TableCell className="w-[min-content] text-right">{test.price}</TableCell>
                     </TableRow>
-                  </TableBody>
-                  <TableFooter>
-                    <TableRow>
-                      <TableCell colSpan={2}>Total</TableCell>
-                      <TableCell className="text-right">{selectedOrderTest.totalHarga}</TableCell>
-                    </TableRow>
-                  </TableFooter>
-                </Table>
-
-                </div>
-              ))}
+                  ))}
+                </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TableCell colSpan={2}>Total</TableCell>
+                    <TableCell className="text-right">{selectedOrderTest.totalHarga}</TableCell>
+                  </TableRow>
+                </TableFooter>
+              </Table>
             </div>
-          ) : (
-            <>
-              
-              
-            </>
-          )}
+              ) : (
+                <></>
+              )}
+
           {/* Add more details as needed */}
           </div>
         </CardContent>
-          <CardFooter className="justify-between space-x-2">
-            <Label htmlFor="filePDF">Upload</Label>
-                <Input id="resultTest" type="file" />
-                <Button type="button" variant="secondary">
-              Upload
-            </Button>
-          </CardFooter>
+        <CardFooter className="justify-between space-x-2">
+        {selectedOrderTest && showResultModal && (
+        <ShowResult pdfUrl={selectedOrderTest.pdfURL} />
+      )}
+            </CardFooter>
         </Card>
       )}
+    </div>
+    </div>
     </div>
   );
 };
