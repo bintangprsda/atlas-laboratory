@@ -43,11 +43,12 @@ export function DashboarHeader() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    Profile
-                    <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                 
+                <DropdownMenuItem>
+                  <Link href="/profile">
+                      Profile
+                      <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                  </Link>
+                </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>

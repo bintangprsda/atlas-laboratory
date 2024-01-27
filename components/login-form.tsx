@@ -32,13 +32,13 @@ export function LoginForm() {
             <Label htmlFor="username" className="text-right">
               Username
             </Label>
-            <Input id="username" value="@bintangprsda" className="col-span-3" />
+            <Input id="username"  className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
               Password
             </Label>
-            <Input type="Password" id="name" value="Pedro Duarte" className="col-span-3" />
+            <Input type="Password" id="name"  className="col-span-3" />
           </div>
         </div>
         <DialogFooter>

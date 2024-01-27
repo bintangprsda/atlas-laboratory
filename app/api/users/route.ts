@@ -65,7 +65,7 @@ async function getHospitalsData() {
 async function getRolesData() {
   try {
     // Mengambil referensi koleksi 'roles' dari Firestore
-    const rolesCollection = admin.firestore().collection('');
+    const rolesCollection = admin.firestore().collection('roles');
 
     // Mengambil data dari koleksi 'roles'
     const rolesSnapshot = await rolesCollection.get();
