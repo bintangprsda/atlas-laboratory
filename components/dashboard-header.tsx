@@ -24,7 +24,7 @@ export function DashboardHeader({ userData }) {
   // Logout function
   const handleLogout = () => {
     localStorage.removeItem('user'); // Assuming you store user data in localStorage
-    router.push('/login'); // Redirect to login page after logout
+    router.push('/'); // Redirect to login page after logout
   };
   
   return (
