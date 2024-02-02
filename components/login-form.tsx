@@ -28,30 +28,40 @@ export function LoginForm() {
     e.preventDefault();
     setLoginError('');
     console.log('Attempting to log in with', { username, password });
-
+  
     try {
       const usersRef = collection(firestore, 'users');
       const q = query(usersRef, where('username', '==', username));
       const snapshot = await getDocs(q);
-
+  
       if (snapshot.empty) {
         console.log('User not found');
         setLoginError('User not found');
         return;
       }
-
+  
       let loginSuccessful = false;
+      let userData = {};
+  
       snapshot.forEach(doc => {
         const user = doc.data();
         if (user.password === password) {
           loginSuccessful = true;
-          // Ideally, replace this with a secure session management approach
-          localStorage.setItem('user', JSON.stringify({ username: user.username, userId: doc.id }));
+          userData = {
+            userId: doc.id,
+            username: user.username,
+            completeName: user.completeName,
+            profilePictureURL: user.profilePictureURL,
+          };
           console.log('Login successful for user:', user.username);
         }
       });
-
+  
       if (loginSuccessful) {
+        // Assuming you want to store the user data in localStorage for now
+        // Note: Storing sensitive information in localStorage is not recommended for production applications
+        localStorage.setItem('user', JSON.stringify(userData));
+  
         // Redirect to /laboratory page
         router.push('/laboratory');
       } else {
@@ -63,6 +73,7 @@ export function LoginForm() {
       setLoginError('Login failed. Please try again.');
     }
   };
+  
 
   
   
