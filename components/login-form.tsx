@@ -41,13 +41,12 @@ export function LoginForm() {
       }
 
       let loginSuccessful = false;
-      let userId = '';
-
       snapshot.forEach(doc => {
         const user = doc.data();
         if (user.password === password) {
           loginSuccessful = true;
-          userId = doc.id;
+          // Ideally, replace this with a secure session management approach
+          localStorage.setItem('user', JSON.stringify({ username: user.username, userId: doc.id }));
           console.log('Login successful for user:', user.username);
         }
       });
@@ -64,6 +63,7 @@ export function LoginForm() {
       setLoginError('Login failed. Please try again.');
     }
   };
+
   
   
 
