@@ -24,8 +24,7 @@ const Registrasi: React.FC = () => {
               Back
             </Link>
           </div>
-
-        </div>
+          </div>
         <p className="max-w text-sm text-muted-foreground">
           Patient Data Input and Lab Examination Type Selection
         </p>

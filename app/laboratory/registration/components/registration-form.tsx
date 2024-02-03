@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import { useState, useEffect } from 'react'; 
 import {
   Card,
   CardContent,
@@ -20,8 +20,19 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import FormTest from "./form-test";
+import useAuth from '../../../../helpers/hooks/useAuth'; 
+
+const removeUndefinedFields = (obj) => {
+  return Object.entries(obj).reduce((acc, [key, value]) => {
+    if (value !== undefined) {
+      acc[key] = value;
+    }
+    return acc;
+  }, {});
+};
 
 const RegistrationForm = ({ onSubmit = () => {} }) => {
+  useAuth();
   const [formData, setFormData] = useState({
     namaPasien: '',
     noMR: '',
@@ -35,7 +46,6 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
   });
 
   useEffect(() => {
-    // Set default value for tanggalKirim when component mounts
     const now = new Date();
     const day = String(now.getDate()).padStart(2, '0');
     const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -46,47 +56,69 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
 
     setFormData((prevData) => ({
       ...prevData,
-      tanggalKirim: prevData.tanggalKirim || defaultTanggalKirim,
+      tanggalKirim: defaultTanggalKirim,
     }));
-  }, []); // Empty dependency array ensures this effect runs only once on mount
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  
+    if (name === 'tanggalLahir') {
+      // Assuming the value is in 'yyyy-mm-dd' format, convert it to 'dd/mm/yyyy'
+      const formattedDate = value.split('-').reverse().join('/');
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: formattedDate,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
-  
-  
-  const handleSubmit = async () => {
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+
+    // Fetch username and hospital from local storage before submitting
+    const username = localStorage.getItem('username') || 'Unknown User';
+    const hospital = localStorage.getItem('hospital') || 'Unknown Hospital';
+
+    const submissionData = {
+      ...formData,
+      username,
+      hospital,
+    };
+
+    const cleanedSubmissionData = removeUndefinedFields(submissionData); // Clean the data
+
+    console.log('Submitting form with data:', cleanedSubmissionData);
+
     try {
-      console.log('Submitting form:', formData);
-      const response = await fetch('../../../api/post', {
+      const response = await fetch('/api/post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(cleanedSubmissionData),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add data');
+        throw new Error('Failed to submit form');
       }
 
       const data = await response.json();
-      console.log("Response:", data);
+      console.log("Response from submission:", data);
 
-      // Invoke the onSubmit function with the form data
-      onSubmit(formData);
+      onSubmit(cleanedSubmissionData); // Invoke the provided onSubmit callback function
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Error during form submission:", error);
     }
   };
 
   return (
-    <div className="ml-6 mr-6 mb-2 grid gap-4">
+    <>
       <Card className="mb-4 md:mb-0">
       <CardHeader>
         <CardTitle>Patient data</CardTitle>
@@ -198,14 +230,9 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
       </Form>
 
       </CardContent>
-      <CardFooter className="justify-between space-x-2">
-      <Button onClick={handleSubmit} className="w-full sm:w-auto">
-          Submit
-        </Button>
-      </CardFooter>
     </Card>
-   <FormTest/>
-   </div>
+    <FormTest formData={formData} setFormData={setFormData}/>
+    </>
   );
 };
 

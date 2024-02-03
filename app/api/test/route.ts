@@ -13,9 +13,17 @@ if (!admin.apps.length) {
 
 const orderTestCollection = admin.firestore().collection('orderTest');
 
-async function addOrderTestData(orderTest: { testName: string; price: number }): Promise<{ status: string }> {
+async function addOrderTestData(orderTests: { testName: string; price: number }[]): Promise<{ status: string }> {
   try {
-    await orderTestCollection.add(orderTest);
+    // Create a batch operation for efficiency
+    const batch = admin.firestore().batch();
+    
+    orderTests.forEach(orderTest => {
+      const newDoc = orderTestCollection.doc(); // Create a new document reference
+      batch.set(newDoc, orderTest); // Add to batch
+    });
+
+    await batch.commit(); // Commit the batch
     return { status: "success" };
   } catch (error) {
     console.error("Error adding data:", error);
@@ -30,15 +38,15 @@ export async function POST(request: NextRequest) {
       throw new Error("Firebase is not connected");
     }
 
-    const { testName, price } = await request.json();
+    const orderTests = await request.json(); // Assuming the body is now an array of orderTests
 
-    console.log('Received data:', { testName, price });
-
-    if (!testName || !price) {
+    if (!Array.isArray(orderTests) || orderTests.some(orderTest => !orderTest.testName || !orderTest.price)) {
       return NextResponse.json({ message: "Invalid data", status: "error" });
     }
 
-    await addOrderTestData({ testName, price });
+    console.log('Received data:', orderTests);
+
+    await addOrderTestData(orderTests);
 
     const response = {
       message: "Data orderTest berhasil ditambahkan",

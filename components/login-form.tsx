@@ -50,6 +50,7 @@ export function LoginForm() {
           userData = {
             userId: doc.id,
             username: user.username,
+            hospital : user.hospital,
             completeName: user.completeName,
             profilePictureURL: user.profilePictureURL,
           };

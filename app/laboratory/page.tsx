@@ -7,7 +7,7 @@ import DatePicker from "./dashboard/date-picker";
 import useAuth from '../../helpers/hooks/useAuth'; // Pastikan path ini sesuai dengan lokasi file RequireAuth Anda
 
 export default function LaboratoryPage() {
-  useAuth();
+  //useAuth();
   // State untuk menyimpan data pengguna
   const [user, setUser] = useState(null);
 

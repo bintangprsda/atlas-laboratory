@@ -15,7 +15,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Search, Trash2, PlusCircle, FlaskConical } from "lucide-react"
 import {Form } from "@/components/ui/form"
 
-const FormTest = ({ onSubmit }) => {
+const FormTest = ({ formData, setFormData }) => {
   const [selectedTests, setSelectedTests] = useState([]);
   const [addedTests, setAddedTests] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -63,20 +63,21 @@ const FormTest = ({ onSubmit }) => {
       const total = calculateTotal();
       const formattedAddedTests = addedTests.map(({ testName, price }) => ({ testName, price }));
   
-      console.log('Submitting form with data:', {
+      // Prepare the combined data
+      const submissionData = {
+        ...formData, // Include all form data from RegistrationForm
         selectedTests: formattedAddedTests,
         total,
-      });
+      };
   
-      const response = await fetch('../../../api/test', {
+      console.log('Submitting combined form data:', JSON.stringify(submissionData, null, 2));
+  
+      const response = await fetch('../../../api/post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          selectedTests: formattedAddedTests,
-          total,
-        }),
+        body: JSON.stringify(submissionData),
       });
   
       if (!response.ok) {
@@ -84,18 +85,18 @@ const FormTest = ({ onSubmit }) => {
       }
   
       const data = await response.json();
-      // Handle the response from the server
       console.log(data);
+      // Handle success scenario, maybe clear form or show a success message
     } catch (error) {
       console.error('Error submitting form:', error.message);
-      // Handle error
+      // Handle error scenario, maybe show an error message
     }
   };
   
+  
 
   return (
-    <>
-      <div className="ml-6 mr-6 mb-5 grid md:grid-cols-2 gap-4">
+      <div className="w-full mb-5 grid md:grid-cols-2 gap-4">
         <Card className="mb-4 md:mb-0">
           <CardHeader>
             <CardTitle>Test Laboratory</CardTitle>
@@ -171,9 +172,7 @@ const FormTest = ({ onSubmit }) => {
           </CardContent>
         </Card>
         <Button onClick={handleSubmit}>Submit Form</Button>
-
-      </div>
-    </>
+        </div>
   );
 };
 
