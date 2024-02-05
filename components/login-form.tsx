@@ -50,7 +50,7 @@ export function LoginForm() {
           userData = {
             userId: doc.id,
             username: user.username,
-            hospital : user.hospital,
+            hospital: user.hospital, // Asumsi setiap user memiliki field hospital
             completeName: user.completeName,
             profilePictureURL: user.profilePictureURL,
           };
@@ -59,8 +59,11 @@ export function LoginForm() {
       });
   
       if (loginSuccessful) {
-        // Assuming you want to store the user data in localStorage for now
-        // Note: Storing sensitive information in localStorage is not recommended for production applications
+        // Menyimpan data pengguna secara spesifik
+        localStorage.setItem('username', userData.username);
+        localStorage.setItem('hospital', userData.hospital);
+  
+        // Jika Anda masih ingin menyimpan seluruh userData, Anda bisa melakukan ini juga
         localStorage.setItem('user', JSON.stringify(userData));
   
         // Redirect to /laboratory page
@@ -74,6 +77,7 @@ export function LoginForm() {
       setLoginError('Login failed. Please try again.');
     }
   };
+  
   
 
   

@@ -1,4 +1,3 @@
-// pages/api/post/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import * as admin from "firebase-admin";
 
@@ -14,7 +13,8 @@ if (!admin.apps.length) {
 const orderTestCollection = admin.firestore().collection('orderTest');
 
 function calculateTotal(selectedTests: Array<{ testName: string; price: number }>): number {
-  return selectedTests.reduce((total, test) => total + test.price, 0);
+  // Use parseFloat to ensure price is treated as a floating-point number
+  return selectedTests.reduce((total, test) => total + parseFloat(test.price.toString()), 0);
 }
 
 async function generateDocumentNumber(): Promise<string> {
@@ -74,10 +74,8 @@ async function addOrderTestData(orderTest: {
 
 export async function POST(request: NextRequest) {
   try {
-    if (admin.apps.length === 0) {
-      console.log("Firebase is not connected!");
-      throw new Error("Firebase is not connected");
-    }
+    const body = await request.json();
+    console.log('Received body:', body);
 
     const {
       namaPasien,
@@ -90,11 +88,16 @@ export async function POST(request: NextRequest) {
       labRujukan = '',
       gender = '',
       selectedTests,
-      username, // Make sure to handle these as optional
-      hospital, // Make sure to handle these as optional
-    } = await request.json();
+      username = '', // Default to empty string if not provided
+      hospital = '', // Default to empty string if not provided
+    } = body;
 
-    if (!namaPasien || !selectedTests) {
+    console.log('username:', username, 'hospital:', hospital); // Logging
+
+    // Rest of the function...
+
+
+    if (!namaPasien || !selectedTests || selectedTests.length === 0) {
       return NextResponse.json({ message: "Missing necessary data", status: "error" });
     }
 
@@ -102,22 +105,21 @@ export async function POST(request: NextRequest) {
     const documentNumber = await generateDocumentNumber();
 
     const orderTestData = {
-  documentNumber,
-  namaPasien,
-  noMR,
-  status,
-  tanggalKirim,
-  tanggalLahir,
-  namaDokter,
-  diagnosa,
-  labRujukan,
-  gender,
-  selectedTests,
-  username: username || 'Unknown User', // Ensure fallback here as well
-  hospital: hospital || 'Unknown Hospital', // Ensure fallback here as well
-};
+      documentNumber,
+      namaPasien,
+      noMR,
+      status,
+      tanggalKirim,
+      tanggalLahir,
+      namaDokter,
+      diagnosa,
+      labRujukan,
+      gender,
+      selectedTests,
+      username,
+      hospital,
+    };
 
-    
     await addOrderTestData(orderTestData);
 
     const response = {

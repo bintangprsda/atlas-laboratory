@@ -22,17 +22,7 @@ import { Button } from "@/components/ui/button";
 import FormTest from "./form-test";
 import useAuth from '../../../../helpers/hooks/useAuth'; 
 
-const removeUndefinedFields = (obj) => {
-  return Object.entries(obj).reduce((acc, [key, value]) => {
-    if (value !== undefined) {
-      acc[key] = value;
-    }
-    return acc;
-  }, {});
-};
-
 const RegistrationForm = ({ onSubmit = () => {} }) => {
-  useAuth();
   const [formData, setFormData] = useState({
     namaPasien: '',
     noMR: '',
@@ -45,6 +35,16 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
     gender: '',
   });
 
+  useEffect(() => {
+    const username = localStorage.getItem('username');
+    const hospital = localStorage.getItem('hospital');
+
+    // Jika ada, tambahkan ke state formData
+    if (username && hospital) {
+      setFormData(prev => ({ ...prev, username, hospital }));
+    }
+  }, []);
+  // Tidak ada perubahan di sini, tetap mengatur tanggal kirim secara default
   useEffect(() => {
     const now = new Date();
     const day = String(now.getDate()).padStart(2, '0');
@@ -62,60 +62,34 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
-    if (name === 'tanggalLahir') {
-      // Assuming the value is in 'yyyy-mm-dd' format, convert it to 'dd/mm/yyyy'
-      const formattedDate = value.split('-').reverse().join('/');
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: formattedDate,
-      }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
 
-    // Fetch username and hospital from local storage before submitting
-    const username = localStorage.getItem('username') || 'Unknown User';
-    const hospital = localStorage.getItem('hospital') || 'Unknown Hospital';
+    // Ambil username dari local storage
+    const username = localStorage.getItem('username');
+    if (!username) {
+      console.error('Username is missing!');
+      return; // Atau tampilkan pesan error ke pengguna
+    }
 
+    // Struktur data submission dengan memasukkan username
     const submissionData = {
       ...formData,
-      username,
-      hospital,
+      username, // Tambahkan username ke dalam data yang akan disubmit
     };
 
-    const cleanedSubmissionData = removeUndefinedFields(submissionData); // Clean the data
+    console.log('Submitting form with data:', submissionData);
 
-    console.log('Submitting form with data:', cleanedSubmissionData);
-
-    try {
-      const response = await fetch('/api/post', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(cleanedSubmissionData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to submit form');
-      }
-
-      const data = await response.json();
-      console.log("Response from submission:", data);
-
-      onSubmit(cleanedSubmissionData); // Invoke the provided onSubmit callback function
-    } catch (error) {
-      console.error("Error during form submission:", error);
-    }
+    // Tempatkan logika pengiriman Anda di sini (misalnya, fetch API call)
   };
+  
+  
 
   return (
     <>
