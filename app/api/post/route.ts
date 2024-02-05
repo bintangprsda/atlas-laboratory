@@ -40,24 +40,17 @@ async function generateDocumentNumber(): Promise<string> {
   return `${prefix}${nextNumberStr}`;
 }
 
-async function addOrderTestData(orderTest: {
-  documentNumber: string,
-  namaPasien: string,
-  noMR: string,
-  status: string,
-  tanggalKirim: string,
-  tanggalLahir: string,
-  namaDokter: string,
-  diagnosa: string,
-  labRujukan: string,
-  gender: string,
-  username: string,
-  hospital: string,
-  selectedTests: Array<{ testName: string; price: number; testId?: string; completed?: boolean; completionDate?: string }>;
-}): Promise<{ status: string }> {
+// Fungsi untuk memformat tanggal dari "yyyy-mm-dd" ke "dd-mm-yyyy"
+const formatTanggalLahir = (tanggalLahir) => {
+  const [year, month, day] = tanggalLahir.split('-');
+  return `${day}-${month}-${year}`;
+};
+
+async function addOrderTestData(orderTest) {
   try {
     const totalPrice = calculateTotal(orderTest.selectedTests);
 
+    // Menambahkan total harga ke data order
     const orderDataWithTotal = {
       ...orderTest,
       total: totalPrice,
@@ -77,7 +70,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     console.log('Received body:', body);
 
-    const {
+    let {
       namaPasien,
       noMR = '',
       status = '',
@@ -94,12 +87,12 @@ export async function POST(request: NextRequest) {
 
     console.log('username:', username, 'hospital:', hospital); // Logging
 
-    // Rest of the function...
-
-
     if (!namaPasien || !selectedTests || selectedTests.length === 0) {
       return NextResponse.json({ message: "Missing necessary data", status: "error" });
     }
+
+    // Memformat tanggalLahir sebelum mengirim
+    tanggalLahir = formatTanggalLahir(tanggalLahir);
 
     // Generate documentNumber
     const documentNumber = await generateDocumentNumber();

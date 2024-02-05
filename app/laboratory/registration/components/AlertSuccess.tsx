@@ -8,7 +8,7 @@ import {
 
 export function AlertSuccess() {
   return (
-    <Alert>
+    <Alert className="bg-green-300">
       <Send className="h-4 w-4" />
       <AlertTitle>Registration Successful</AlertTitle>
       <AlertDescription>

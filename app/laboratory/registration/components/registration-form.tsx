@@ -20,7 +20,8 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import FormTest from "./form-test";
-import useAuth from '../../../../helpers/hooks/useAuth'; 
+import useAuth from '../../../../helpers/hooks/useAuth';
+import { AlertSuccess } from './AlertSuccess'; 
 
 const RegistrationForm = ({ onSubmit = () => {} }) => {
   const [formData, setFormData] = useState({
@@ -34,6 +35,8 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
     labRujukan: 'SH Lippo Village',
     gender: '',
   });
+
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false); // Add this line to manage alert visibility
 
   useEffect(() => {
     const username = localStorage.getItem('username');
@@ -68,31 +71,31 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
     }));
   };
 
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split("-");
+    return `${day}-${month}-${year}`;
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Ambil username dari local storage
     const username = localStorage.getItem('username');
     if (!username) {
       console.error('Username is missing!');
       return; // Atau tampilkan pesan error ke pengguna
     }
-
-    // Struktur data submission dengan memasukkan username
-    const submissionData = {
-      ...formData,
-      username, // Tambahkan username ke dalam data yang akan disubmit
-    };
-
+  
+    
+  
     console.log('Submitting form with data:', submissionData);
-
+  
     // Tempatkan logika pengiriman Anda di sini (misalnya, fetch API call)
   };
   
-  
-
   return (
     <>
+    <AlertSuccess/>
       <Card className="mb-4 md:mb-0">
       <CardHeader>
         <CardTitle>Patient data</CardTitle>
