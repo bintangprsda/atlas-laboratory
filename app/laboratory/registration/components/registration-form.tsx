@@ -21,9 +21,9 @@ import {
 import { Button } from "@/components/ui/button";
 import FormTest from "./form-test";
 import useAuth from '../../../../helpers/hooks/useAuth';
-import { AlertSuccess } from './AlertSuccess'; 
 
 const RegistrationForm = ({ onSubmit = () => {} }) => {
+  useAuth();
   const [formData, setFormData] = useState({
     namaPasien: '',
     noMR: '',
@@ -95,7 +95,6 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
   
   return (
     <>
-    <AlertSuccess/>
       <Card className="mb-4 md:mb-0">
       <CardHeader>
         <CardTitle>Patient data</CardTitle>

@@ -29,25 +29,25 @@ const OrderRequest = () => {
   const [orderTests, setOrderTests] = useState([]);
   const [selectedOrderTest, setSelectedOrderTest] = useState(null);
 
-  useEffect(() => {
-    // Fetch orderTest data when the component mounts
-    const fetchOrderTestData = async () => {
-      try {
-        const response = await fetch("../../api/order");
-        const data = await response.json();
-        console.log("Fetched Data:", data); // Log the fetched data to inspect it
-        setOrderTests(data.orderTests);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  // This function can be called to refresh data
+  const fetchData = async () => {
+    try {
+      const response = await fetch("../../api/order"); // Adjust the path as needed
+      const data = await response.json();
+      setOrderTests(data.orderTests);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-    fetchOrderTestData();
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const handleOrderTestClick = (orderTest) => {
     setSelectedOrderTest(orderTest);
   };
+
 
   return (
     <div className="w-full h-full flex items-center justify-center">
@@ -97,59 +97,57 @@ const OrderRequest = () => {
           </ScrollArea>
         </CardContent>
       </Card>
-      </div>
+    </div>
 
       <div className="grid md:grid-cols">
       {selectedOrderTest && (
-        <Card className="col-span-3">
-          <CardHeader>
-          <CardTitle>{selectedOrderTest.namaPasien}</CardTitle>
-          <CardDescription>{selectedOrderTest.namaRS}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[300px]">
-          <p className="text-xs text-muted-foreground mb-3">No. Reg: {selectedOrderTest.documentNumber}</p>
-
-          {Array.isArray(selectedOrderTest.selectedTests) ? (
-            <div className="text-sm text-muted-foreground">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[100px]">No</TableHead>
-                    <TableHead className="flex-1">Test Name</TableHead>
-                    <TableHead className="w-[min-content] text-right">Price</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {selectedOrderTest.selectedTests.map((test, index) => (
-                    <TableRow key={index}>
-                      <TableCell className="font-medium">{index + 1}</TableCell>
-                      <TableCell className="flex-1">{test.testName}</TableCell>
-                      <TableCell className="w-[min-content] text-right">{test.price}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-                <TableFooter>
-                  <TableRow>
-                    <TableCell colSpan={2}>Total</TableCell>
-                    <TableCell className="text-right">{selectedOrderTest.totalHarga}</TableCell>
-                  </TableRow>
-                </TableFooter>
-              </Table>
-            </div>
-              ) : (
-                <></>
-              )}
-
-          {/* Add more details as needed */}
-          </div>
-        </CardContent>
-          <CardFooter className="flex items-center justify-end gap-x-2">
-          <CancelOrder/>
-          <AcceptOrder/>
-          </CardFooter>
-        </Card>
-      )}
+            <Card className="col-span-3">
+              <CardHeader>
+                <CardTitle>{selectedOrderTest.namaPasien}</CardTitle>
+                <CardDescription>{selectedOrderTest.namaRS}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="h-[300px]">
+                  <p className="text-xs text-muted-foreground mb-3">No. Reg: {selectedOrderTest.documentNumber}</p>
+                  {Array.isArray(selectedOrderTest.selectedTests) ? (
+                    <div className="text-sm text-muted-foreground">
+                      {/* Assume Table, TableHeader, etc., are components you have defined or imported */}
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead className="w-[100px]">No</TableHead>
+                            <TableHead className="flex-1">Test Name</TableHead>
+                            <TableHead className="w-[min-content] text-right">Price</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {selectedOrderTest.selectedTests.map((test, index) => (
+                            <TableRow key={index}>
+                              <TableCell className="font-medium">{index + 1}</TableCell>
+                              <TableCell className="flex-1">{test.testName}</TableCell>
+                              <TableCell className="w-[min-content] text-right">{test.price}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                        <TableFooter>
+                          <TableRow>
+                            <TableCell colSpan={2}>Total</TableCell>
+                            <TableCell className="text-right">{selectedOrderTest.totalHarga}</TableCell>
+                          </TableRow>
+                        </TableFooter>
+                      </Table>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              </CardContent>
+              <CardFooter className="flex items-center justify-end gap-x-2">
+                <CancelOrder selectedOrderTest={selectedOrderTest} />
+                <AcceptOrder selectedOrderTest={selectedOrderTest} refreshData={fetchData} />
+              </CardFooter>
+            </Card>
+          )}
       </div>
     </div>
     </div>

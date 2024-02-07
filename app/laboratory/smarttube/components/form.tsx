@@ -20,7 +20,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Search, MoreVertical , PlusCircle, Trash2, FlaskConical  } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -122,8 +122,6 @@ export function Modals() {
     
       return frontTest?.codeTube || backTest?.codeTube;
     };
-
-    
 
     return (
     <>
@@ -249,43 +247,42 @@ export function Modals() {
       <CardContent>
       <Separator className="my-2" />
         <ScrollArea className="h-[300px]">
-     
-
-<div className="grid gap-6">
-  {selectedTests.map((test, index) => (
-    <div key={test.id} className="flex items-center mt-4">
-      <div className={`ml-3 h-10 w-10 flex items-center justify-center rounded-sm ${getTubeColorClass(getTubeCode(test.id))}`}>
-        <FlaskConical className="h-5 w-5 text-white" />
-      </div>
-      <div className="ml-4 space-y-1">
-        <p className="text-sm font-medium leading-none">
-          {index + 1}. {test.testName} ({test.tab}) 
-        </p>
-        <p className="text-sm text-muted-foreground">Price: {test.price}</p>
-      </div>
-      <div className="ml-auto font-light text-sm">
-      <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-        <Button variant="ghost" size="icon" onClick={() => handleRemoveTest(test.id, test.tab)}>
-          <Trash2 className="h-4 w-4" />
-        </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Remove</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+        <div className="grid gap-6">
+          {selectedTests.map((test, index) => (
+            <div key={test.id} className="flex items-center mt-4">
+              <div className={`ml-3 h-10 w-10 flex items-center justify-center rounded-sm ${getTubeColorClass(getTubeCode(test.id))}`}>
+                <FlaskConical className="h-5 w-5 text-white" />
+              </div>
+              <div className="ml-4 space-y-1">
+                <p className="text-sm font-medium leading-none">
+                  {index + 1}. {test.testName} 
+                </p>
+                <p className="text-sm text-muted-foreground">Price: {test.price}</p>
+              </div>
+              <div className="ml-auto font-light text-sm">
+              <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={() => handleRemoveTest(test.id, test.tab)}>
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Remove</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+                </div>
+            </div>
+          ))}
         </div>
-    </div>
-  ))}
-</div>
-
-
-
-
         </ScrollArea>
       </CardContent>
+      <CardFooter>
+        <div className="w-full">
+          Total Price
+          </div>
+      </CardFooter>
     </Card>
 
     <Card className="mb-4 md:mb-0">

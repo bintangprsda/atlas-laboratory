@@ -7,7 +7,7 @@ import DatePicker from "./dashboard/date-picker";
 import useAuth from '../../helpers/hooks/useAuth'; // Pastikan path ini sesuai dengan lokasi file RequireAuth Anda
 
 export default function LaboratoryPage() {
-  //useAuth();
+  useAuth();
   // State untuk menyimpan data pengguna
   const [user, setUser] = useState(null);
 
@@ -23,7 +23,7 @@ export default function LaboratoryPage() {
       <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
         <div className="flex max-w-[980px] flex-col items-start gap-2">
           <h1 className="text-lg font-extrabold leading-tight tracking-tighter md:text-4xl">
-            Welcome, <span className="font-regular">{user ? user.username : 'Atlas Laboratory'}</span>
+            Welcome, <span className="font-regular">{user ? user.completeName : 'Atlas Laboratory'}</span>
           </h1>
           <p className="max-w-[700px] text-sm text-muted-foreground">
             Siloam Hospitals Lippo Village

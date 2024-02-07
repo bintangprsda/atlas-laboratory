@@ -1,3 +1,7 @@
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -21,7 +25,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export function CancelOrder () {
+export function CancelOrder ({ selectedOrderTest }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -31,7 +35,7 @@ export function CancelOrder () {
         <DialogHeader>
           <DialogTitle>Cancel Sampel Order</DialogTitle>
           <DialogDescription>
-            Confirmation
+            Confirmation {selectedOrderTest.namaPasien}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -63,3 +67,4 @@ export function CancelOrder () {
     </Dialog>
   )
 }
+

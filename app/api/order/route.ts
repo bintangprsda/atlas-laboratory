@@ -20,7 +20,7 @@ async function getOrderTestData() {
     // Mengambil data dari koleksi 'orderTest'
     const orderTestSnapshot = await orderTestCollection.get();
 
-    // Mengubah data snapshot 'orderTest' menjadi array dengan properti yang spesifik
+    // Mengubah data snapshot 'orderTest' menjadi array dengan properti yang spesifik, termasuk documentId
     const orderTests = orderTestSnapshot.docs.map((orderTestDoc) => {
       const orderTestData = orderTestDoc.data();
 
@@ -31,11 +31,12 @@ async function getOrderTestData() {
       })) || [];
 
       return {
+        id: orderTestDoc.id, // Menambahkan id dari dokumen
         namaPasien: orderTestData.namaPasien,
-        noMR:orderTestData.noMR,
-        documentNumber : orderTestData.documentNumber,
+        noMR: orderTestData.noMR,
+        documentNumber: orderTestData.documentNumber,
         namaDokter: orderTestData.namaDokter,
-        jenisKelamin:orderTestData.jenisKelamin,
+        jenisKelamin: orderTestData.jenisKelamin,
         tanggalLahir: orderTestData.tanggalLahir,
         namaRS: orderTestData.namaRS,
         status: orderTestData.status,
@@ -51,6 +52,7 @@ async function getOrderTestData() {
     throw error;
   }
 }
+
 
 export async function GET() {
   try {
