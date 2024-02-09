@@ -6,9 +6,22 @@ export const testData = {
         {
           name: "Hematology - General",
           tests: [
-            { id: "01", codeTube: "30", name: "FULL BLOOD COUNT", price: 200000 },
-            { id: "02", codeTube: "30", name: "COMPLETE BLOOD COUNT", price: 200000 },
-            { id: "03", codeTube: "30", name: "RETICULOCYTE COUNT", price: 200000 },
+            { id: "01", codeTube: "30", result: "2 HOURS", name: "FULL BLOOD COUNT", price: 200000, keterangan:"" },
+            { id: "02", codeTube: "30", result: "2 HOURS", name: "COMPLETE BLOOD COUNT", price: 200000,keterangan:"" },
+            { id: "03", codeTube: "30", result: "2 HOURS", name: "CHOLESTEROL", price: 200000, keterangan:"FASTING 10-12 HOURS" },
+          ],
+        },
+      ],
+    },
+    {
+      category: "BLOOD CHEMISTRY",
+      subcategories: [
+        {
+          name: "HEART FUNCTION TEST",
+          tests: [
+            { id: "01", codeTube: "30", result: "2 HOURS", name: "FULL BLOOD COUNT", price: 200000, keterangan:"" },
+            { id: "02", codeTube: "30", result: "2 HOURS", name: "COMPLETE BLOOD COUNT", price: 200000,keterangan:"" },
+            { id: "03", codeTube: "30", result: "2 HOURS", name: "CHOLESTEROL", price: 200000, keterangan:"FASTING 10-12 HOURS" },
           ],
         },
       ],
@@ -21,9 +34,9 @@ export const testData = {
         {
           name: "Tumor Marker",
           tests: [
-            { id: "04", codeTube: "10", name: "AFP", price: 200000 },
-            { id: "05", codeTube: "10", name: "HBSAG", price: 200000 },
-            { id: "06", codeTube: "10", name: "ANTI TOXOPLASMA IGG", price: 200000 },
+            { id: "04", codeTube: "10", result: "2 HOURS", name: "AFP", price: 200000, keterangan:"" },
+            { id: "05", codeTube: "10", result: "2 HOURS", name: "HBSAG", price: 200000, keterangan:"" },
+            { id: "06", codeTube: "10", result: "2 HOURS", name: "ANTI TOXOPLASMA IGG", price: 200000, keterangan:"" },
           ],
           // ...Tambahkan subkategori lainnya sesuai kebutuhan
         },

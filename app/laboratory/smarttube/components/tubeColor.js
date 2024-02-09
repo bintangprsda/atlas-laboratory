@@ -8,8 +8,10 @@ export const getTubeColorClass = (tubeCode) => {
         return 'bg-rose-500'; 
       case '11':
         return 'bg-yellow-500';
-      case '12':
+      case '40':
         return 'bg-blue-500';  
+      case '45':
+        return 'bg-blue-500';
       // Add more cases for other tube codes if needed
       default:
         return 'bg-gray-500'; 

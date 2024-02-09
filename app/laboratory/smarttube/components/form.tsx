@@ -33,7 +33,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { testData } from './testData';
+import { testData } from './data';
 import { getTubeName} from './tubeName';
 import { getTubeColorClass } from './tubeColor';
 import DropdownSelect from './select-class';
@@ -76,7 +76,7 @@ export function Modals() {
           // Test already exists, update it
           return prevTests.map((t) =>
             t.id === id && t.tab === tab
-              ? { ...t, isSelected: true, testName, price: test?.price || 0 }
+              ? { ...t, isSelected: true, testName, price: test?.price || 0, result: test?.result, keterangan: test?.keterangan }
               : t
           );
         } else {
@@ -88,7 +88,7 @@ export function Modals() {
   
           return [
             ...prevTests,
-            { id, isSelected: true, testName, tab, price: test?.price || 0 },
+            { id, isSelected: true, testName, tab, price: test?.price || 0, result: test?.result, keterangan: test?.keterangan },
           ];
         }
       });
@@ -175,7 +175,7 @@ export function Modals() {
 
     return (
     <>  
-     <div className="w-full mx-auto max-w-[950] mb-5 grid md:grid-cols-2 gap-4">
+     <div className="w-full mx-auto max-w-[950] grid md:grid-cols-2 gap-4">
           <div className="grid gap-2">
           <Select onValueChange={handleClassChange} value={selectedClass}>
         <SelectTrigger className="w-full">
@@ -183,9 +183,9 @@ export function Modals() {
         </SelectTrigger>
         <SelectContent>
           {/* It's crucial that the value attribute matches the expected format */}
-          <SelectItem value="Class1">Class 1 - 15% Discount</SelectItem>
-          <SelectItem value="Class2">Class 2 - 10% Discount</SelectItem>
-          <SelectItem value="Class3">Class 3 - 5% Discount</SelectItem>
+          <SelectItem value="Class1">Class 1 </SelectItem>
+          <SelectItem value="Class2">Class 2 </SelectItem>
+          <SelectItem value="Class3">Class 3 </SelectItem>
         </SelectContent>
       </Select>
           </div>
@@ -212,9 +212,9 @@ export function Modals() {
           </div>
           {searchResults.length > 0 && (
             <div className="p-4">
-              <h3 className="text-lg font-semibold">Search Results:</h3>
+              <h3 className="text-sm font-semibold">Search Results:</h3>
               {searchResults.map((test) => (
-                <div key={test.id} className="flex items-center space-x-2">
+                <div key={test.id} className="text-sm flex items-center space-x-2">
                   <input
                     type="checkbox"
                     id={`search-${test.id}`}
@@ -233,76 +233,68 @@ export function Modals() {
               <TabsTrigger value="back">Back</TabsTrigger>
             </TabsList>
             <TabsContent value="front">
-              <ScrollArea className="h-[300px]">
-                {testData.front.map((category) => (
-                  <div key={category.category}>
-                    <Badge className="ml-auto w-full mb-4 flex items-center justify-center">
-                      <div className="font-bold">{category.category}</div>
-                    </Badge>
+            <ScrollArea className="h-[400px]">
+              {testData.front.map((category) => (
+                <div key={category.category} className="mb-6">
+                  <Badge className="w-full mb-4 flex justify-center">
+                    <div className="font-bold">{category.category}</div>
+                  </Badge>
+                  <div className="flex flex-wrap justify-center md:justify-start">
                     {category.subcategories.map((subcategory) => (
-                      <div key={subcategory.name} className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                          <h3 className="text-sm font-bold mb-2">{subcategory.name}</h3>
-                          {subcategory.tests.map((test) => (
-                            <div key={test.id} className="mt-3 flex flex-row items-start space-x-3 space-y-0">
+                      <div key={subcategory.name} className="w-full md:w-1/2 lg:w-1/3 px-4 mb-4">
+                        <h3 className="text-sm font-bold mb-2">{subcategory.name}</h3>
+                        {subcategory.tests.map((test) => (
+                          <div key={test.id} className="flex flex-col mb-2">
+                            <label htmlFor={test.id} className="flex items-center text-xs font-medium cursor-pointer">
                               <input
                                 type="checkbox"
                                 id={test.id}
-                                className="labCheckbox"
-                                checked={selectedTests.some(
-                                  (selectedTest) => selectedTest.id === test.id
-                                )}
-                                onChange={(e) =>
-                                  handleCheckboxChange(test.id, e.target.checked, test.name, 'front')
-                                }
+                                className="labCheckbox mr-2"
+                                checked={selectedTests.some(selectedTest => selectedTest.id === test.id)}
+                                onChange={(e) => handleCheckboxChange(test.id, e.target.checked, test.name, 'front')}
                               />
-                              <label htmlFor={test.id} className="text-sm font-medium">
-                                {test.name}
-                              </label>
-                            </div>
-                          ))}
-                        </div>
+                              {test.name}
+                            </label>
+                          </div>
+                        ))}
                       </div>
                     ))}
                   </div>
-                ))}
-              </ScrollArea>
+                </div>
+              ))}
+            </ScrollArea>
             </TabsContent>
             <TabsContent value="back">
-              <ScrollArea className="h-[300px]">
-                {testData.back.map((category) => (
-                  <div key={category.category}>
-                    <Badge className="ml-auto w-full mb-4 flex items-center justify-center">
-                      <div className="font-bold">{category.category}</div>
-                    </Badge>
+            <ScrollArea className="h-[400px]">
+              {testData.back.map((category) => (
+                <div key={category.category} className="mb-6">
+                  <Badge className="w-full mb-4 flex justify-center">
+                    <div className="font-bold">{category.category}</div>
+                  </Badge>
+                  <div className="flex flex-wrap justify-center md:justify-start">
                     {category.subcategories.map((subcategory) => (
-                      <div key={subcategory.name} className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                          <h3 className="text-sm font-bold mb-2">{subcategory.name}</h3>
-                          {subcategory.tests.map((test) => (
-                            <div key={test.id} className="mt-3 flex flex-row items-start space-x-3 space-y-0">
+                      <div key={subcategory.name} className="w-full md:w-1/2 lg:w-1/3 px-4 mb-4">
+                        <h3 className="text-sm font-bold mb-2">{subcategory.name}</h3>
+                        {subcategory.tests.map((test) => (
+                          <div key={test.id} className="flex flex-col mb-2">
+                            <label htmlFor={test.id} className="flex items-center text-xs font-medium cursor-pointer">
                               <input
                                 type="checkbox"
                                 id={test.id}
-                                className="labCheckbox"
-                                checked={selectedTests.some(
-                                  (selectedTest) => selectedTest.id === test.id
-                                )}
-                                onChange={(e) =>
-                                  handleCheckboxChange(test.id, e.target.checked, test.name, 'back')
-                                }
+                                className="labCheckbox mr-2"
+                                checked={selectedTests.some(selectedTest => selectedTest.id === test.id)}
+                                onChange={(e) => handleCheckboxChange(test.id, e.target.checked, test.name, 'front')}
                               />
-                              <label htmlFor={test.id} className="text-sm font-medium">
-                                {test.name}
-                              </label>
-                            </div>
-                          ))}
-                        </div>
+                              {test.name}
+                            </label>
+                          </div>
+                        ))}
                       </div>
                     ))}
                   </div>
-                ))}
-              </ScrollArea>
+                </div>
+              ))}
+            </ScrollArea>
             </TabsContent>
           </Tabs>
           <DialogFooter>
@@ -325,7 +317,7 @@ export function Modals() {
 
       <div className="w-full h-full flex items-center justify-center">
       <div className="w-full mx-auto max-w-[950] mb-5 grid md:grid-cols-2 gap-4">
-      <Card className="mb-4 md:mb-0">
+      <Card className="mb-2 md:mb-0">
       <CardHeader>
         <CardTitle>List Test</CardTitle>
         <CardDescription>Select test laboratory</CardDescription>
@@ -334,38 +326,51 @@ export function Modals() {
       <Separator className="my-2" />
         <ScrollArea className="h-[300px]">
         <div className="grid gap-6">
-          {selectedTests.map((test, index) => (
+        {selectedTests.map((test, index) => (
             <div key={test.id} className="flex items-center mt-4">
               <div className={`ml-3 h-10 w-10 flex items-center justify-center rounded-sm ${getTubeColorClass(getTubeCode(test.id))}`}>
-                <FlaskConical className="h-5 w-5 text-white" />
-              </div>
+              <FlaskConical className="flex-none h-5 w-5 text-white" style={{ height: '20px', width: '20px' }} />
+            </div>
+              <div className="flex justify-between w-full">
               <div className="ml-4 space-y-1">
                 <p className="text-sm font-medium leading-none">
-                  {index + 1}. {test.testName} 
+                  {index + 1}. {test.testName}
                 </p>
-                <p className="text-sm text-muted-foreground">
-      Price: {new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-      }).format(calculateDiscount(test.price, selectedClass))}
-    </p>
+                <p className="text-xs text-muted-foreground">
+                  Price: {new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                  }).format(calculateDiscount(test.price, selectedClass))}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Result: {test.result}
+                </p>
               </div>
-              <div className="ml-auto font-light text-sm">
-              <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" onClick={() => handleRemoveTest(test.id, test.tab)}>
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Remove</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+              <div className="space-y-1 text-right">
+                <div className="font-light text-xs">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon" onClick={() => handleRemoveTest(test.id, test.tab)}>
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Remove</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
+                {test.keterangan && (
+                  <p className="text-xs italic text-rose-500 text-muted-foreground">
+                  {test.keterangan}
+                </p>
+                )}
+              </div>
             </div>
+          </div>
           ))}
+
         </div>
         </ScrollArea>
       </CardContent>
@@ -376,7 +381,7 @@ export function Modals() {
       </CardFooter>
     </Card>
     
-    <Card className="mb-4 md:mb-0">
+    <Card className="mb-2 md:mb-0">
       <CardHeader>
         <CardTitle>Tube List</CardTitle>
         <CardDescription>Select test laboratory</CardDescription>
@@ -388,7 +393,7 @@ export function Modals() {
           {selectedTubes.map((tubeCode) => (
             <div key={tubeCode} className="flex items-center mt-4">
               <div className={`ml-3 h-10 w-10 flex items-center justify-center rounded-sm ${getTubeColorClass(tubeCode)}`}>
-                <FlaskConical className="h-5 w-5 text-white"  />
+                <FlaskConical className="flex-none h-5 w-5 text-white"  />
               </div>
               <div className="ml-4 space-y-1">
                 <p className="text-sm font-medium leading-none">{getTubeName(tubeCode)}</p>
@@ -404,8 +409,15 @@ export function Modals() {
         </div>
         </ScrollArea>
       </CardContent>
-    </Card>
+      <CardFooter>
+      <div className="w-full text-right">
+          <Button variant="default">
+              save
+            </Button>
       </div>
+        </CardFooter>
+    </Card>
+    </div>
       </div>
       </>
   );
