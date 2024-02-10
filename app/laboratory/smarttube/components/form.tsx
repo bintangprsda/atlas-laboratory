@@ -70,7 +70,6 @@ export function Modals() {
   }, [searchTerm]);
 
   const handleCheckboxChange = (id, isChecked, testName, tab) => {
-    // Assuming testData is structured as { tab: [{ subcategories: [...] }] }
     let foundTest;
     testData[tab].forEach(category => {
       category.subcategories.forEach(subcategory => {
@@ -121,10 +120,24 @@ export function Modals() {
       });
     } else {
       // Handle test unselection
-      setSelectedTests(prevTests => prevTests.filter(t => !(t.id === id && t.tab === tab)));
-      // Potentially update selectedTubes here as well
+      setSelectedTests(prevTests => {
+        const updatedTests = prevTests.filter(t => !(t.id === id && t.tab === tab));
+        const tubeCode = getTubeCode(id);
+        
+        // Check if any remaining test uses the same tubeCode
+        const isTubeCodeStillUsed = updatedTests.some(test => getTubeCode(test.id) === tubeCode);
+        
+        if (!isTubeCodeStillUsed) {
+          // If no other test uses this tubeCode, remove it from selectedTubes
+          setSelectedTubes(prevTubes => prevTubes.filter(tCode => tCode !== tubeCode));
+        }
+        
+        return updatedTests;
+      });
     }
   };
+  
+
   
   const handleRemoveTest = (id, tab) => {
       setSelectedTests((prevTests) =>
@@ -217,10 +230,11 @@ export function Modals() {
             />
           </div>
           {searchResults.length > 0 && (
-            <div className="p-4">
+            <div className="p-2">
               <h3 className="text-sm font-semibold">Search Results:</h3>
+              <ScrollArea className="h-[50px]">
               {searchResults.map((test) => (
-                <div key={test.id} className="text-sm flex items-center space-x-2">
+                <div key={test.id} className="text-xs flex items-center space-x-4">
                   <input
                     type="checkbox"
                     id={`search-${test.id}`}
@@ -231,6 +245,7 @@ export function Modals() {
                   <label htmlFor={`search-${test.id}`}>{test.name}</label>
                 </div>
               ))}
+              </ScrollArea>
             </div>
           )}
           <Tabs defaultValue="front" className="w-full sm:w-[900px]">
@@ -241,17 +256,17 @@ export function Modals() {
             <TabsContent value="front">
             <ScrollArea className="h-[300px]">
   {testData.front.map((category) => (
-    <div key={category.category} className="mb-6">
+    <div key={category.category} className="mb-2">
       <Badge className="w-full mb-4 flex justify-center">
         <div className="font-bold">{category.category}</div>
       </Badge>
       <div className="flex flex-wrap justify-center md:justify-start">
         {category.subcategories.map((subcategory) => (
-          <div key={subcategory.name} className="w-full md:w-1/2 lg:w-1/3 px-4 mb-4">
+          <div key={subcategory.name} className="w-full md:w-1/2 lg:w-1/3 px-2 mb-2">
             <h3 className="text-sm font-bold mb-2">{subcategory.name}</h3>
             {subcategory.tests.map((test) => (
               <div key={test.id} className="flex flex-col mb-2">
-                <label htmlFor={test.id} className="flex items-center text-sm font-medium cursor-pointer">
+                <label htmlFor={test.id} className="flex items-center text-xs font-medium cursor-pointer">
                   <input
                     type="checkbox"
                     id={test.id}
@@ -272,36 +287,36 @@ export function Modals() {
 
             </TabsContent>
             <TabsContent value="back">
-            <ScrollArea className="h-[400px]">
-              {testData.back.map((category) => (
-                <div key={category.category} className="mb-6">
-                  <Badge className="w-full mb-4 flex justify-center">
-                    <div className="font-bold">{category.category}</div>
-                  </Badge>
-                  <div className="flex flex-wrap justify-center md:justify-start">
-                    {category.subcategories.map((subcategory) => (
-                      <div key={subcategory.name} className="w-full md:w-1/2 lg:w-1/3 px-4 mb-4">
-                        <h3 className="text-sm font-bold mb-2">{subcategory.name}</h3>
-                        {subcategory.tests.map((test) => (
-                          <div key={test.id} className="flex flex-col mb-2">
-                            <label htmlFor={test.id} className="flex items-center text-xs font-medium cursor-pointer">
-                              <input
-                                type="checkbox"
-                                id={test.id}
-                                className="labCheckbox mr-2"
-                                checked={selectedTests.some(selectedTest => selectedTest.id === test.id)}
-                                onChange={(e) => handleCheckboxChange(test.id, e.target.checked, test.name, 'front')}
-                              />
-                              {test.name}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </ScrollArea>
+            <ScrollArea className="h-[300px]">
+  {testData.back.map((category) => (
+    <div key={category.category} className="mb-2">
+      <Badge className="w-full mb-4 flex justify-center">
+        <div className="font-bold">{category.category}</div>
+      </Badge>
+      <div className="flex flex-wrap justify-center md:justify-start">
+        {category.subcategories.map((subcategory) => (
+          <div key={subcategory.name} className="w-full md:w-1/2 lg:w-1/3 px-2 mb-2">
+            <h3 className="text-sm font-bold mb-2">{subcategory.name}</h3>
+            {subcategory.tests.map((test) => (
+              <div key={test.id} className="flex flex-col mb-2">
+                <label htmlFor={test.id} className="flex items-center text-xs font-medium cursor-pointer">
+                  <input
+                    type="checkbox"
+                    id={test.id}
+                    className="labCheckbox mr-2"
+                    checked={selectedTests.some(selectedTest => selectedTest.id === test.id)}
+                    onChange={(e) => handleCheckboxChange(test.id, e.target.checked, test.name, 'back')}
+                  />
+                  {test.name}
+                </label>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  ))}
+</ScrollArea>
             </TabsContent>
           </Tabs>
           <DialogFooter>
