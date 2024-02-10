@@ -45,6 +45,11 @@ export function Modals() {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedClass, setSelectedClass] = useState("");
 
+  useEffect(() => {
+  console.log(selectedTests);
+}, [selectedTests]);
+
+
 
   useEffect(() => {
     if (searchTerm === "") {
@@ -65,62 +70,62 @@ export function Modals() {
   }, [searchTerm]);
 
   const handleCheckboxChange = (id, isChecked, testName, tab) => {
-    const test = testData[tab][0].subcategories
-      .flatMap((subcategory) => subcategory.tests)
-      .find((test) => test.id === id);
+    // Assuming testData is structured as { tab: [{ subcategories: [...] }] }
+    let foundTest;
+    testData[tab].forEach(category => {
+      category.subcategories.forEach(subcategory => {
+        const test = subcategory.tests.find(t => t.id === id);
+        if (test) {
+          foundTest = test;
+        }
+      });
+    });
+  
+    if (!foundTest) {
+      console.error("Test not found");
+      return;
+    }
   
     if (isChecked) {
-      setSelectedTests((prevTests) => {
-        const existingTest = prevTests.find((t) => t.id === id && t.tab === tab);
-        if (existingTest) {
-          // Test already exists, update it
-          return prevTests.map((t) =>
-            t.id === id && t.tab === tab
-              ? { ...t, isSelected: true, testName, price: test?.price || 0, result: test?.result, keterangan: test?.keterangan }
-              : t
-          );
+      setSelectedTests(prevTests => {
+        const existingIndex = prevTests.findIndex(t => t.id === id && t.tab === tab);
+        if (existingIndex !== -1) {
+          // Update existing test
+          const updatedTests = [...prevTests];
+          updatedTests[existingIndex] = {
+            ...updatedTests[existingIndex],
+            isSelected: true,
+            testName,
+            price: foundTest.price || 0,
+            result: foundTest.result,
+            keterangan: foundTest.keterangan,
+          };
+          return updatedTests;
         } else {
-          // New test, add it
+          // Add new test
           const tubeCode = getTubeCode(id);
+          const newTest = {
+            id,
+            isSelected: true,
+            testName,
+            tab,
+            price: foundTest.price || 0,
+            result: foundTest.result,
+            keterangan: foundTest.keterangan,
+          };
           if (tubeCode && !selectedTubes.includes(tubeCode)) {
-            setSelectedTubes((prevTubes) => [...new Set([...prevTubes, tubeCode])]);
+            setSelectedTubes(prev => [...new Set([...prev, tubeCode])]);
           }
-  
-          return [
-            ...prevTests,
-            { id, isSelected: true, testName, tab, price: test?.price || 0, result: test?.result, keterangan: test?.keterangan },
-          ];
+          return [...prevTests, newTest];
         }
       });
     } else {
-      setSelectedTests((prevTests) => {
-        const filteredTests = prevTests.filter(
-          (test) => !(test.id === id && test.tab === tab)
-        );
-  
-        const remainingTubeCodes = filteredTests.map((test) => getTubeCode(test.id));
-  
-        // Update selectedTubes only if the test being removed is the last with its tubeCode
-        if (!filteredTests.some((test) => getTubeCode(test.id) === getTubeCode(id))) {
-          const uniqueTubeCodes = [...new Set(remainingTubeCodes)];
-          setSelectedTubes(uniqueTubeCodes);
-        }
-  
-        return [
-          ...filteredTests,
-          ...remainingTubeCodes
-            .filter((tubeCode) => !selectedTubes.includes(tubeCode))
-            .map((tubeCode) => ({
-              id: tubeCode,
-              isSelected: false,
-              testName: '',
-              tab: '',
-              price: 0,
-            })),
-        ];
-      });
+      // Handle test unselection
+      setSelectedTests(prevTests => prevTests.filter(t => !(t.id === id && t.tab === tab)));
+      // Potentially update selectedTubes here as well
     }
   };
+  
   const handleRemoveTest = (id, tab) => {
       setSelectedTests((prevTests) =>
         prevTests.filter((test) => !(test.id === id && test.tab === tab))
@@ -136,16 +141,17 @@ export function Modals() {
       setSelectedTubes(uniqueTubeCodes);
     };
   const getTubeCode = (testId) => {
-      const findTest = (category) =>
-        category.subcategories
-          .flatMap((subcategory) => subcategory.tests)
-          .find((test) => test.id === testId);
-    
-      const frontTest = findTest(testData.front[0]);
-      const backTest = findTest(testData.back[0]);
-    
-      return frontTest?.codeTube || backTest?.codeTube;
-    };
+  const findTestInCategories = (categories) =>
+    categories.flatMap(category =>
+      category.subcategories.flatMap(subcategory =>
+        subcategory.tests.find(test => test.id === testId)
+      )
+    ).find(test => test); // Return the first found test
+
+  const test = findTestInCategories(testData.front) || findTestInCategories(testData.back);
+  return test?.codeTube;
+};
+
 
     const handleSearchChange = (event) => {
       setSearchTerm(event.target.value);
@@ -233,36 +239,37 @@ export function Modals() {
               <TabsTrigger value="back">Back</TabsTrigger>
             </TabsList>
             <TabsContent value="front">
-            <ScrollArea className="h-[400px]">
-              {testData.front.map((category) => (
-                <div key={category.category} className="mb-6">
-                  <Badge className="w-full mb-4 flex justify-center">
-                    <div className="font-bold">{category.category}</div>
-                  </Badge>
-                  <div className="flex flex-wrap justify-center md:justify-start">
-                    {category.subcategories.map((subcategory) => (
-                      <div key={subcategory.name} className="w-full md:w-1/2 lg:w-1/3 px-4 mb-4">
-                        <h3 className="text-sm font-bold mb-2">{subcategory.name}</h3>
-                        {subcategory.tests.map((test) => (
-                          <div key={test.id} className="flex flex-col mb-2">
-                            <label htmlFor={test.id} className="flex items-center text-xs font-medium cursor-pointer">
-                              <input
-                                type="checkbox"
-                                id={test.id}
-                                className="labCheckbox mr-2"
-                                checked={selectedTests.some(selectedTest => selectedTest.id === test.id)}
-                                onChange={(e) => handleCheckboxChange(test.id, e.target.checked, test.name, 'front')}
-                              />
-                              {test.name}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </ScrollArea>
+            <ScrollArea className="h-[300px]">
+  {testData.front.map((category) => (
+    <div key={category.category} className="mb-6">
+      <Badge className="w-full mb-4 flex justify-center">
+        <div className="font-bold">{category.category}</div>
+      </Badge>
+      <div className="flex flex-wrap justify-center md:justify-start">
+        {category.subcategories.map((subcategory) => (
+          <div key={subcategory.name} className="w-full md:w-1/2 lg:w-1/3 px-4 mb-4">
+            <h3 className="text-sm font-bold mb-2">{subcategory.name}</h3>
+            {subcategory.tests.map((test) => (
+              <div key={test.id} className="flex flex-col mb-2">
+                <label htmlFor={test.id} className="flex items-center text-sm font-medium cursor-pointer">
+                  <input
+                    type="checkbox"
+                    id={test.id}
+                    className="labCheckbox mr-2"
+                    checked={selectedTests.some(selectedTest => selectedTest.id === test.id)}
+                    onChange={(e) => handleCheckboxChange(test.id, e.target.checked, test.name, 'front')}
+                  />
+                  {test.name}
+                </label>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  ))}
+</ScrollArea>
+
             </TabsContent>
             <TabsContent value="back">
             <ScrollArea className="h-[400px]">
