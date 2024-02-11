@@ -26,7 +26,7 @@ export default function LaboratoryPage() {
             Welcome, <span className="font-regular">{user ? user.completeName : 'Atlas Laboratory'}</span>
           </h1>
           <p className="max-w-[700px] text-sm text-muted-foreground">
-            Siloam Hospitals Lippo Village
+          Laboratory, {user ? user.hospital : 'Siloam Hospitlas Lippo Village'}
           </p>
         </div>
         <DatePicker />

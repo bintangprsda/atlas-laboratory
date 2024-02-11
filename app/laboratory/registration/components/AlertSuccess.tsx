@@ -1,19 +1,21 @@
-import { Send } from "lucide-react"
+"use client"
 
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+import { useToast } from "@/components/ui/use-toast"
 
-export function AlertSuccess() {
+export function ToastSimple() {
+  const { toast } = useToast()
+
   return (
-    <Alert className="bg-green-300">
-      <Send className="h-4 w-4" />
-      <AlertTitle>Registration Successful</AlertTitle>
-      <AlertDescription>
-        Patient data has been successfully sending.
-      </AlertDescription>
-    </Alert>
+    <Button
+      variant="outline"
+      onClick={() => {
+        toast({
+          description: "Your order has been sending.",
+        })
+      }}
+    >
+      Show Toast
+    </Button>
   )
 }

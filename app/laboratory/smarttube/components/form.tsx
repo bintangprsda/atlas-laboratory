@@ -198,7 +198,7 @@ export function Modals() {
           <div className="grid gap-2">
           <Select onValueChange={handleClassChange} value={selectedClass}>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select Class" />
+          <SelectValue placeholder="🏷️ Select Class" />
         </SelectTrigger>
         <SelectContent>
           {/* It's crucial that the value attribute matches the expected format */}
@@ -211,7 +211,7 @@ export function Modals() {
         <div className="grid gap-2">
         <Dialog>
         <DialogTrigger asChild>
-          <Button variant="outline">Klik Form</Button>
+          <Button variant="outline"> 📄 Klik Form</Button>
         </DialogTrigger>
         <DialogContent className="w-full sm:max-w-[950px] mx-auto p-4 rounded-md">
           <DialogHeader>
@@ -341,7 +341,7 @@ export function Modals() {
       <div className="w-full mx-auto max-w-[950] mb-5 grid md:grid-cols-2 gap-4">
       <Card className="mb-2 md:mb-0">
       <CardHeader>
-        <CardTitle>List Test</CardTitle>
+        <CardTitle> 🧬 List Test</CardTitle>
         <CardDescription>Select test laboratory</CardDescription>
       </CardHeader>
       <CardContent>
@@ -398,14 +398,14 @@ export function Modals() {
       </CardContent>
       <CardFooter>
         <div className="w-full">
-        Total Price: {formattedTotalPrice}
+        💰 Total Price: {formattedTotalPrice}
           </div>
       </CardFooter>
     </Card>
     
     <Card className="mb-2 md:mb-0">
       <CardHeader>
-        <CardTitle>Tube List</CardTitle>
+        <CardTitle>🩸Tube List</CardTitle>
         <CardDescription>Select test laboratory</CardDescription>
       </CardHeader>
       <CardContent>
@@ -434,7 +434,7 @@ export function Modals() {
       <CardFooter>
       <div className="w-full text-right">
           <Button variant="default">
-              save
+          💾 save
             </Button>
       </div>
         </CardFooter>
