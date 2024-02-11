@@ -10,27 +10,23 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
+  import { Button } from "@/components/ui/button";
 
-  const TestDetailDialog = ({ test, onClose }) => {
+  const TestDetailDialog = ({ isOpen, onClose, testDetail }) => {
     return (
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="outline">View</Button>
-        </DialogTrigger>
+      <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>{test.testName}</DialogTitle>
+            <DialogTitle>{testDetail?.testName}</DialogTitle>
             <DialogDescription>Test Parameter Laboratory</DialogDescription>
           </DialogHeader>
           <div className="flex items-center space-x-2">
-            <div className="grid flex-1 gap-2">Price: {test.price}</div>
+            <div className="grid flex-1 gap-2">Price: {testDetail?.price}</div>
           </div>
           <DialogFooter className="sm:justify-start">
-            <DialogTrigger asChild>
-              <Button type="button" variant="secondary" onClick={onClose}>
-                Close
-              </Button>
-            </DialogTrigger>
+            <Button type="button" variant="secondary" onClick={onClose}>
+              Close
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

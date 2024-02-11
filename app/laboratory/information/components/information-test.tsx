@@ -1,38 +1,24 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
+import { FlaskConical, Search } from "lucide-react";
 import {
   Card,
   CardContent,
   CardHeader,
-  CardDescription,
   CardTitle,
+  CardDescription,
   CardFooter,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Search, FlaskConical, PlusCircle, Trash2  } from "lucide-react"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import TestDetailDialog from "./detailtest"; // Make sure the path is correct
 
 const InformationTest = () => {
   const [selectedTests, setSelectedTests] = useState([]);
   const [selectedTestDetail, setSelectedTestDetail] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -40,8 +26,7 @@ const InformationTest = () => {
       try {
         const response = await fetch("../../api/labtest");
         const data = await response.json();
-        const { selectedTests } = data;
-        setSelectedTests(selectedTests);
+        setSelectedTests(data.selectedTests || []); // Adjusted for direct use
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -52,10 +37,12 @@ const InformationTest = () => {
 
   const handleTestClick = (test) => {
     setSelectedTestDetail(test);
+    setIsDialogOpen(true); // Opens the dialog
   };
 
   const closeDialog = () => {
     setSelectedTestDetail(null);
+    setIsDialogOpen(false); // Closes the dialog
   };
 
   const filteredTests = selectedTests.filter((test) =>
@@ -68,11 +55,11 @@ const InformationTest = () => {
         <CardHeader>
           <CardTitle>Detail Parameter</CardTitle>
           <CardDescription>Test laboratory</CardDescription>
-          <div className="relative">
+          <div className="relative w-full">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search test..."
-              className="pl-8 w-full sm:w-[500px] md:w-[950px]"
+              className="pl-8 w-full"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -81,41 +68,17 @@ const InformationTest = () => {
         <CardContent>
           <ScrollArea className="h-[300px]">
             {filteredTests.map((test, index) => (
-              <div key={index} className="flex mt-2 items-center justify-between space-x-4 hover:bg-secondary/80 rounded-lg">
+              <div key={index} className="flex mt-2 items-center justify-between space-x-4 hover:bg-secondary/80 rounded-lg py-4">
                 <div className="flex items-center space-x-4">
-                  <div className="h-8 w-8 flex items-center justify-center rounded-full">
-                    <FlaskConical className="h-5 w-5" />
-                  </div>
+                  <FlaskConical className="h-5 w-5" />
                   <div>
-                    <h2 className="text-sm font-extrabold leading-none">{`${test.testName}`}</h2>
-                    <div className="flex items-center space-x-2 mt-1">
-                      <p className="text-xs text-muted-foreground">{`Rp. ${test.price}`}</p>
-                    </div>
+                    <h2 className="text-sm font-bold">{test.testName}</h2>
+                    <p className="text-xs text-muted-foreground">Rp. {test.price}</p>
                   </div>
                 </div>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="outline" onClick={() => handleTestClick(test)}>
-                      View
-                    </Button>
-                  </DialogTrigger>
-                  {selectedTestDetail && (
-                    <DialogContent className="sm:max-w-md">
-                      <DialogHeader>
-                        <DialogTitle>{selectedTestDetail.testName}</DialogTitle>
-                        <DialogDescription>Test Parameter Laboratory</DialogDescription>
-                      </DialogHeader>
-                      <div className="flex items-center space-x-2">
-                        <div className="grid flex-1 gap-2">Price: {selectedTestDetail.price}</div>
-                      </div>
-                      <DialogFooter className="sm:justify-start">
-                        <Button type="button" variant="secondary" onClick={closeDialog}>
-                          Close
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  )}
-                </Dialog>
+                <Button variant="outline" onClick={() => handleTestClick(test)}>
+                  View
+                </Button>
               </div>
             ))}
           </ScrollArea>
@@ -124,6 +87,11 @@ const InformationTest = () => {
           <p>Card Footer</p>
         </CardFooter>
       </Card>
+      <TestDetailDialog
+        isOpen={isDialogOpen}
+        onClose={closeDialog}
+        testDetail={selectedTestDetail}
+      />
     </div>
   );
 };
