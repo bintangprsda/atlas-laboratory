@@ -26,9 +26,7 @@ export default function IndexPage() {
 
               <div className="px-4 text-neutral-600 lg:px-0 ">
                 <p className="mt-6 max-w-xl text-center sm:text-left">
-                  Build, test and, and send transactional emails at scale.
-                  Resend provides the best developer experience helping you
-                  reach users instead of spam folders{" "}
+                Improving Laboratory Service Quality through the Implementation of Innovative Application Solutions
                 </p>
                 <div className="mt-4">
                   <h1 className="text-center sm:text-left">

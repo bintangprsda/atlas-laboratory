@@ -197,7 +197,7 @@ export function Modals() {
      <div className="w-full mx-auto max-w-[950] grid md:grid-cols-2 gap-4">
           <div className="grid gap-2">
           <Select onValueChange={handleClassChange} value={selectedClass}>
-        <SelectTrigger className="w-full">
+        <SelectTrigger varriant="primary" className="w-full">
           <SelectValue placeholder="🏷️ Select Class" />
         </SelectTrigger>
         <SelectContent>
@@ -210,8 +210,8 @@ export function Modals() {
           </div>
         <div className="grid gap-2">
         <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="outline"> 📄 Klik Form</Button>
+        <DialogTrigger  asChild>
+          <Button variant="primary"> 📄 Klik Form</Button>
         </DialogTrigger>
         <DialogContent className="w-full sm:max-w-[950px] mx-auto p-4 rounded-md">
           <DialogHeader>
@@ -234,7 +234,7 @@ export function Modals() {
               <h3 className="text-sm font-semibold">Search Results:</h3>
               <ScrollArea className="h-[50px]">
               {searchResults.map((test) => (
-                <div key={test.id} className="text-xs flex items-center space-x-4">
+                <div key={test.id} className="text-sm flex items-center space-x-4">
                   <input
                     type="checkbox"
                     id={`search-${test.id}`}
@@ -255,68 +255,68 @@ export function Modals() {
             </TabsList>
             <TabsContent value="front">
             <ScrollArea className="h-[300px]">
-  {testData.front.map((category) => (
-    <div key={category.category} className="mb-2">
-      <Badge className="w-full mb-4 flex justify-center">
-        <div className="font-bold">{category.category}</div>
-      </Badge>
-      <div className="flex flex-wrap justify-center md:justify-start">
-        {category.subcategories.map((subcategory) => (
-          <div key={subcategory.name} className="w-full md:w-1/2 lg:w-1/3 px-2 mb-2">
-            <h3 className="text-sm font-bold mb-2">{subcategory.name}</h3>
-            {subcategory.tests.map((test) => (
-              <div key={test.id} className="flex flex-col mb-2">
-                <label htmlFor={test.id} className="flex items-center text-xs font-medium cursor-pointer">
-                  <input
-                    type="checkbox"
-                    id={test.id}
-                    className="labCheckbox mr-2"
-                    checked={selectedTests.some(selectedTest => selectedTest.id === test.id)}
-                    onChange={(e) => handleCheckboxChange(test.id, e.target.checked, test.name, 'front')}
-                  />
-                  {test.name}
-                </label>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  ))}
-</ScrollArea>
+                {testData.front.map((category) => (
+                  <div key={category.category} className="mb-2">
+                    <Badge className="w-full mb-4 flex justify-center">
+                      <div className="font-bold">{category.category}</div>
+                    </Badge>
+                    <div className="flex flex-wrap justify-center md:justify-start">
+                      {category.subcategories.map((subcategory) => (
+                        <div key={subcategory.name} className="w-full md:w-1/2 lg:w-1/3 px-2 mb-2">
+                          <h3 className="text-sm font-bold mb-2">{subcategory.name}</h3>
+                          {subcategory.tests.map((test) => (
+                            <div key={test.id} className="flex flex-col mb-2">
+                              <label htmlFor={test.id} className="flex items-center text-xs font-medium cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  id={test.id}
+                                  className="labCheckbox mr-2"
+                                  checked={selectedTests.some(selectedTest => selectedTest.id === test.id)}
+                                  onChange={(e) => handleCheckboxChange(test.id, e.target.checked, test.name, 'front')}
+                                />
+                                {test.name}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </ScrollArea>
 
             </TabsContent>
             <TabsContent value="back">
             <ScrollArea className="h-[300px]">
-  {testData.back.map((category) => (
-    <div key={category.category} className="mb-2">
-      <Badge className="w-full mb-4 flex justify-center">
-        <div className="font-bold">{category.category}</div>
-      </Badge>
-      <div className="flex flex-wrap justify-center md:justify-start">
-        {category.subcategories.map((subcategory) => (
-          <div key={subcategory.name} className="w-full md:w-1/2 lg:w-1/3 px-2 mb-2">
-            <h3 className="text-sm font-bold mb-2">{subcategory.name}</h3>
-            {subcategory.tests.map((test) => (
-              <div key={test.id} className="flex flex-col mb-2">
-                <label htmlFor={test.id} className="flex items-center text-xs font-medium cursor-pointer">
-                  <input
-                    type="checkbox"
-                    id={test.id}
-                    className="labCheckbox mr-2"
-                    checked={selectedTests.some(selectedTest => selectedTest.id === test.id)}
-                    onChange={(e) => handleCheckboxChange(test.id, e.target.checked, test.name, 'back')}
-                  />
-                  {test.name}
-                </label>
+            {testData.back.map((category) => (
+              <div key={category.category} className="mb-2">
+                <Badge className="w-full mb-4 flex justify-center">
+                  <div className="font-bold">{category.category}</div>
+                </Badge>
+                <div className="flex flex-wrap justify-center md:justify-start">
+                  {category.subcategories.map((subcategory) => (
+                    <div key={subcategory.name} className="w-full md:w-1/2 lg:w-1/3 px-2 mb-2">
+                      <h3 className="text-sm font-bold mb-2">{subcategory.name}</h3>
+                      {subcategory.tests.map((test) => (
+                        <div key={test.id} className="flex flex-col mb-2">
+                          <label htmlFor={test.id} className="flex items-center text-xs font-medium cursor-pointer">
+                            <input
+                              type="checkbox"
+                              id={test.id}
+                              className="labCheckbox mr-2"
+                              checked={selectedTests.some(selectedTest => selectedTest.id === test.id)}
+                              onChange={(e) => handleCheckboxChange(test.id, e.target.checked, test.name, 'back')}
+                            />
+                            {test.name}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  ))}
-</ScrollArea>
+          </ScrollArea>
             </TabsContent>
           </Tabs>
           <DialogFooter>
@@ -342,7 +342,7 @@ export function Modals() {
       <Card className="mb-2 md:mb-0">
       <CardHeader>
         <CardTitle> 🧬 List Test</CardTitle>
-        <CardDescription>Select test laboratory</CardDescription>
+        <CardDescription>Types of blood tests available</CardDescription>
       </CardHeader>
       <CardContent>
       <Separator className="my-2" />
@@ -405,8 +405,8 @@ export function Modals() {
     
     <Card className="mb-2 md:mb-0">
       <CardHeader>
-        <CardTitle>🩸Tube List</CardTitle>
-        <CardDescription>Select test laboratory</CardDescription>
+        <CardTitle>🩸 List Tube</CardTitle>
+        <CardDescription>Type of Blood Tubes Needed for Collection</CardDescription>
       </CardHeader>
       <CardContent>
       <Separator className="my-2" />
