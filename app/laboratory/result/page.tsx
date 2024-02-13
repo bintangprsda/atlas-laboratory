@@ -11,7 +11,7 @@ const ResutTest: React.FC = () => {
       <div className="flex max-w flex-col items-start gap-2">
         <div className="flex items-center justify-between w-full">
           <h1 className="text-lg font-extrabold leading-tight tracking-tighter md:text-4xl">
-            Result Test
+          🖨 Result Test
           </h1>
           <div className="flex text-xs font-extrabold flex-grow justify-end">
             <Link

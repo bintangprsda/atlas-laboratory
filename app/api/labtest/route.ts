@@ -30,6 +30,10 @@ export async function GET() {
         testGroup : testData.testGroup,
         category : testData.category,
         kodeTest : testData.kodeTest,
+        resultTest : testData.resultTest,
+        keterangan : testData.keterangan,
+        jadwal : testData.jadwal,
+        deskripsi : testData.deskripsi,
       };
     });
 

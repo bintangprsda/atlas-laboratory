@@ -58,7 +58,7 @@ const WorkList = () => {
       {/* Order Test List Section */}
       <Card className="col-span-3">
         <CardHeader>
-          <CardTitle>Order Date</CardTitle>
+          <CardTitle>📅 Order Date</CardTitle>
           <CardDescription>
             <DatePicker />
           </CardDescription>
@@ -100,13 +100,15 @@ const WorkList = () => {
     </div>
       <div className="grid md:grid-cols">
       {/* Details Section */}
-      {selectedOrderTest && (
+      
         <Card className="col-span-3">
-       <CardHeader>
+        {selectedOrderTest && (
+          <>
+          <CardHeader>
           <CardTitle>{selectedOrderTest.namaPasien}</CardTitle>
           <CardDescription>{selectedOrderTest.namaRS}</CardDescription>
         </CardHeader>
-        <CardContent>
+            <CardContent>
           <div className="h-[300px]">
           <p className="text-xs text-muted-foreground mb-3">No. Reg: {selectedOrderTest.documentNumber}</p>
 
@@ -144,14 +146,15 @@ const WorkList = () => {
           {/* Add more details as needed */}
           </div>
         </CardContent>
-          <CardFooter className="justify-between space-x-2">
-            <FileUpload/>
-            <Button type="button" variant="secondary">
-              Upload
-            </Button>
-          </CardFooter>
+        <CardFooter className="flex justify-between items-center space-x-2">
+          <div className="flex-grow"> </div>
+          <FileUpload className="text-right" />
+        </CardFooter>
+
+        </>
+        )}
         </Card>
-      )}
+      
       </div>
       </div>
       </div>

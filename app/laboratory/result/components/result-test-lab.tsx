@@ -61,7 +61,7 @@ const ResultTestLab = () => {
       {/* Order Test List Section */}
       <Card className="col-span-3">
         <CardHeader>
-          <CardTitle>Order Date</CardTitle>
+          <CardTitle>📅 Order Date</CardTitle>
           <CardDescription>
             <DatePicker />
           </CardDescription>
@@ -103,8 +103,10 @@ const ResultTestLab = () => {
       </div>
       <div className="grid md:grid-cols">
       {/* Details Section */}
-      {selectedOrderTest && (
+      
         <Card className="col-span-3">
+        {selectedOrderTest && (
+          <>
         <CardHeader>
           <CardTitle>{selectedOrderTest.namaPasien}</CardTitle>
           <CardDescription>{selectedOrderTest.namaRS}</CardDescription>
@@ -150,10 +152,12 @@ const ResultTestLab = () => {
         <CardFooter className="justify-between space-x-2">
         {selectedOrderTest && showResultModal && (
         <ShowResult pdfUrl={selectedOrderTest.pdfURL} />
-      )}
-            </CardFooter>
+          )}
+          </CardFooter>
+          </>
+          )}
         </Card>
-      )}
+      
     </div>
     </div>
     </div>

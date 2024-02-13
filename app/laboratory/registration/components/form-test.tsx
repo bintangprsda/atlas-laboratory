@@ -99,7 +99,7 @@ const FormTest = ({ formData, setFormData }) => {
       <div className="w-full mb-5 grid md:grid-cols-2 gap-4">
         <Card className="mb-4 md:mb-0">
           <CardHeader>
-            <CardTitle>Test Laboratory</CardTitle>
+            <CardTitle>🧬 Test Laboratory</CardTitle>
             <CardDescription>Select your test laboratory</CardDescription>
           </CardHeader>
           <CardContent>
@@ -116,7 +116,7 @@ const FormTest = ({ formData, setFormData }) => {
               {filteredTests.map((test, index) => (
                 <div
                   key={index}
-                  className="flex mt-2 items-center hover:bg-secondary/80 rounded-lg justify-between space-x-4"
+                  className="py-4 flex mt-2 items-center hover:bg-secondary/80 rounded-lg justify-between space-x-4"
                 >
                   <div className="flex items-center space-x-4">
                     <div className="h-8 w-8 flex items-center justify-center rounded-full">
@@ -139,8 +139,8 @@ const FormTest = ({ formData, setFormData }) => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Add test</CardTitle>
-            <CardDescription>-</CardDescription>
+            <CardTitle>🩸 Add test</CardTitle>
+            <CardDescription>add and deleted test</CardDescription>
           </CardHeader>
           <CardContent>
             <Form>
@@ -163,7 +163,7 @@ const FormTest = ({ formData, setFormData }) => {
                     ))}
                   </ScrollArea>
                   <div>
-                    <p className="text-sm font-bold">Total Price:</p>
+                    <p className="text-sm font-bold">💵 Total Price:</p>
                     <p className="text-lg font-extrabold">Rp. {Number(calculateTotal())}</p>
                   </div>
                 </div>

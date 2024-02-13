@@ -56,10 +56,11 @@ const OrderRequest = () => {
       {/* Order Test List Section */}
       <Card className="col-span-3">
         <CardHeader>
-          <CardTitle>Order Date</CardTitle>
+          <CardTitle>📅 Order Date</CardTitle>
           <CardDescription>
             {/* Replace DatePicker with your actual DatePicker component */}
-            <DatePicker />
+            <DatePicker validDates={orderTests.map(test => test.tanggalKirim)} />
+
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -100,11 +101,15 @@ const OrderRequest = () => {
     </div>
 
       <div className="grid md:grid-cols">
-      {selectedOrderTest && (
+      
             <Card className="col-span-3">
+            {selectedOrderTest && (
+              <>
               <CardHeader>
                 <CardTitle>{selectedOrderTest.namaPasien}</CardTitle>
-                <CardDescription>{selectedOrderTest.namaRS}</CardDescription>
+                <CardDescription>
+                  {selectedOrderTest.namaRS}
+                  </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="h-[300px]">
@@ -146,8 +151,10 @@ const OrderRequest = () => {
                 <CancelOrder selectedOrderTest={selectedOrderTest} />
                 <AcceptOrder selectedOrderTest={selectedOrderTest} refreshData={fetchData} />
               </CardFooter>
+              </>
+            )}
             </Card>
-          )}
+          
       </div>
     </div>
     </div>
