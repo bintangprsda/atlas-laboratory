@@ -3,9 +3,11 @@ import { buttonVariants } from "@/components/ui/button";
 import {
   ChevronLeft,
 } from 'lucide-react';
-import UserCard from "./components/user-card";
+import Consumable from "./components/consumable";
 
-const Consumable: React.FC = () => {
+
+
+const Page: React.FC = () => {
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="flex max-w flex-col items-start gap-2">
@@ -28,12 +30,13 @@ const Consumable: React.FC = () => {
           Request for Items for Blood Collection Preparation from Wards
         </p>
       </div>
-      <UserCard/>
+      <Consumable/>
+      
     </section>
 
   );
 };
 
-export default Consumable;
+export default Page;
 
 
