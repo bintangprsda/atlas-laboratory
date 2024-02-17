@@ -1,4 +1,7 @@
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardFooter  } from '@/components/ui/card';
+import { Trash  } from 'lucide-react';
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 function AddOrder({ items, onDelete, onUpdateQuantity }) {
   const handleQuantityChange = (e, itemName) => {
@@ -7,43 +10,62 @@ function AddOrder({ items, onDelete, onUpdateQuantity }) {
   };
 
   return (
-    <div className="p-4 bg-white shadow-md rounded-lg">
-  <h2 className="text-xl font-semibold text-gray-800 mb-4">Order Summary</h2>
-  {items.length > 0 ? (
-    items.map((item, index) => (
-      <div key={index} className="flex justify-between items-center mb-4 p-2 hover:bg-gray-50 rounded-lg">
-        <div className="flex items-center space-x-3">
-          <span className="text-sm font-bold text-gray-600">{index + 1}.</span>
-          <span className="text-sm font-medium text-gray-700">{item.namaBarang}</span>
-        </div>
-        <div className="flex items-center">
-          <select
-            value={item.quantity}
-            onChange={(e) => handleQuantityChange(e, item.namaBarang)}
-            className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-            aria-label={`Select quantity for ${item.namaBarang}`}
-          >
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-          </select>
-          <span className="ml-4 mr-2 text-sm font-medium text-gray-600">PCS</span>
-          <Button
-            onClick={() => onDelete(item)}
-            variant={"destructive"}
-            aria-label={`Delete ${item.namaBarang}`}
-          >
-            Delete
-          </Button>
-        </div>
-      </div>
-    ))
-  ) : (
-    <p className="text-sm text-gray-600">No items added.</p>
-  )}
-</div>
+    <Card className="flex flex-col p-2 md:p-4 shadow-md rounded-lg h-full">
+  <CardHeader className="mb-3 md:mb-4">
+    <h2 className="text-lg md:text-xl font-semibold">Order Summary</h2>
+  </CardHeader>
+  <CardContent className="flex-grow">
+    <ScrollArea>
+      {items.length > 0 ? (
+        items.map((item, index) => (
+          <div key={index} className="flex flex-col md:flex-row justify-between items-center mb-3 md:mb-4 p-2 rounded-lg">
+            <div className="flex items-center space-x-2 md:space-x-3 justify-start">
+              <span className="text-xs md:text-sm font-bold">{index + 1}.</span>
+              <span className="text-xs md:text-sm font-medium">{item.namaBarang}</span>
+            </div>
+            <div className="flex items-center mt-2 md:mt-0">
+              <select
+                value={item.quantity}
+                onChange={(e) => handleQuantityChange(e, item.namaBarang)}
+                className="form-select appearance-none block w-full px-2 md:px-3 py-1 text-xs md:text-base font-normal bg-white border border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                aria-label={`Select quantity for ${item.namaBarang}`}
+              >
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+              </select>
+              <span className="ml-2 md:ml-4 mr-1 md:mr-2 text-xs md:text-sm font-medium">PCS</span>
+              <Button
+                onClick={() => onDelete(item)}
+                variant="outline"
+                aria-label={`Delete ${item.namaBarang}`}
+                className="text-xs md:text-sm flex items-center justify-center"
+              >
+                {/* Ensure the icon size adapts responsively, if needed */}
+                <Trash size="16" className="md:size-20" /> {/* Adjust the icon size as per your design system */}
+              </Button>
+            </div>
+          </div>
+
+        ))
+      ) : (
+        <p className="text-xs md:text-sm">No items added.</p>
+      )}
+    </ScrollArea>
+  </CardContent>
+  <CardFooter className="mt-auto px-2 md:px-4 md:px-12 py-3 md:py-5 border-t flex items-center justify-end gap-x-2 md:gap-x-3">
+    <Button variant="outline" className="text-xs md:text-sm">
+      Cancel
+    </Button>
+    <Button variant="default" className="text-xs md:text-sm">
+      Order
+    </Button>
+  </CardFooter>
+</Card>
+
+
 
   );
 }
