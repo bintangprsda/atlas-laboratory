@@ -24,7 +24,7 @@ export function SiteHeader() {
         
         <MainNav items={siteConfig.mainNav} />
 
-       {/* Desktop navigation */}
+       {/* Desktop navigation 
           <nav className="hidden sm:flex items-center gap-6 text-sm">
             <Link href="/About" passHref>
               <span className="cursor-pointer hover:bg-blue-100 hover:text-blue-800 p-2 rounded-md transition-all duration-300">About</span>
@@ -37,28 +37,21 @@ export function SiteHeader() {
             </Link>
           </nav>
               {/* Mobile navigation panel */}
-              {isMobileMenuOpen && (
+              {/*{isMobileMenuOpen && (
                   <div className="fixed inset-0 z-50 bg-white/80 backdrop-filter backdrop-blur-lg bg-opacity-80 sm:hidden">
                     <div className="flex justify-end p-4">
                       <button onClick={() => setIsMobileMenuOpen(false)}>
-                        <XIcon className="w-6 h-6" /> {/* Close icon */}
-                      </button>
+                        <XIcon className="w-6 h-6" />  Close icon */}
+                      {/*</button>
                     </div>
                     <div className="flex flex-col items-center bg-white/80 backdrop-filter backdrop-blur-lg bg-opacity-80 rounded-lg m-4 py-4">
-                      {/* Menggunakan mb-6 untuk memberikan jarak lebih besar */}
+                      {/* Menggunakan mb-6 untuk memberikan jarak lebih besar 
                       <Link href="/About" passHref><span className="py-2 cursor-pointer hover:text-foreground/80 mb-6">About</span></Link>
                       <Link href="/Features" passHref><span className="py-2 cursor-pointer hover:text-foreground/80 mb-6">Features</span></Link>
                       <Link href="/Profiles" passHref><span className="py-2 cursor-pointer hover:text-foreground/80 mb-6">Profiles</span></Link>
                     </div>
                   </div>
-                )}
-
-
-
-        
-
-
-
+                )}*/}
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
             <ThemeToggle />

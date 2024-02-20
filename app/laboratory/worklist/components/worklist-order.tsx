@@ -1,9 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
 import {
   Table,
   TableBody,
@@ -33,10 +30,9 @@ const WorkList = () => {
   const [selectedOrderTest, setSelectedOrderTest] = useState(null);
 
   useEffect(() => {
-    // Fetch orderTest data when the component mounts
     const fetchOrderTestData = async () => {
       try {
-        const response = await fetch("../../api/order");
+        const response = await fetch('/api/order'); // Sesuaikan URL sesuai kebutuhan
         const data = await response.json();
         setOrderTests(data.orderTests);
       } catch (error) {
@@ -47,9 +43,8 @@ const WorkList = () => {
     fetchOrderTestData();
   }, []);
 
-  const handleOrderTestClick = (orderTest) => {
-    setSelectedOrderTest(orderTest);
-  };
+  // Menangani klik pada salah satu order test
+  const handleOrderTestClick = (orderTest) => setSelectedOrderTest(orderTest);
 
   return (
     <div className="w-full h-full flex items-center justify-center">
@@ -148,7 +143,7 @@ const WorkList = () => {
         </CardContent>
         <CardFooter className="flex justify-between items-center space-x-2">
           <div className="flex-grow"> </div>
-          <FileUpload className="text-right" />
+          {selectedOrderTest && <FileUpload selectedOrderTestId={selectedOrderTest.id} />}
         </CardFooter>
 
         </>

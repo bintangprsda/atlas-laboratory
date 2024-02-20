@@ -35,10 +35,8 @@ const UsersList: React.FC = () => {
       </div>
       <UsersDashboard/>
       <div className="w-full h-full flex items-center justify-center">
-      <div className="w-full mx-auto max-w-[950] mb-5 grid md:grid-cols-3 gap-4">
+      <div className="w-full mx-auto max-w-[950] mb-5 grid md:grid-cols gap-4">
         <DashboardUsers/>
-        <ListHospitals/>
-        <ListRoles/>
       </div>
       </div>
       
