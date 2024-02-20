@@ -17,22 +17,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { DatePickerWithRange } from './date-range';
 import { DataFilter } from "./data-filter"
 import Pagination from './pagination'; // Ensure this path matches where your Pagination component is saved
+import { DatePickerWithRange } from './date-range';
 
 export function DataTable() {
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 5; // Adjust the page size as needed
-  const [orderTests, setOrderTests] = useState([]); // This will store the fetched data
+  const pageSize = 5;
+  const [orderTests, setOrderTests] = useState([]);
+  const [filterOptions, setFilterOptions] = useState([]);
 
   useEffect(() => {
-    // Fetch orderTest data when the component mounts
     const fetchOrderTestData = async () => {
       try {
-        const response = await fetch("/api/order"); // Adjust the fetch URL as needed
+        const response = await fetch("/api/order");
         const data = await response.json();
-        setOrderTests(data.orderTests); // Store the fetched data in state
+        setOrderTests(data.orderTests);
+        // Generate filter options based on unique Rs. Pengirim names
+        const rsNames = Array.from(new Set(data.orderTests.map(test => test.namaRS)))
+                            .map(name => ({ name, checked: false }));
+        setFilterOptions(rsNames);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -41,17 +45,34 @@ export function DataTable() {
     fetchOrderTestData();
   }, []);
 
-  const totalPages = Math.ceil(orderTests.length / pageSize);
+  const handleFilterChange = (rsName, checked) => {
+    setFilterOptions(options =>
+      options.map(option => ({
+        ...option,
+        checked: option.name === rsName ? checked : option.checked,
+      }))
+    );
+  };
+
+  // Determine if any filters are active
+  const isAnyFilterActive = filterOptions.some(option => option.checked);
+
+  // Filter data based on active filters or return all data if no filters are active
+  const filteredData = isAnyFilterActive
+    ? orderTests.filter(test =>
+        filterOptions.find(option => option.name === test.namaRS && option.checked)
+      )
+    : orderTests; // Default to all data if no filters are selected
+
+  const totalPages = Math.ceil(filteredData.length / pageSize);
+  const currentTableData = filteredData.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
-  // Calculate the data to display on the current page
-  const currentTableData = orderTests.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
 
   return (
     <Card>
@@ -62,7 +83,7 @@ export function DataTable() {
       <CardContent>
       <div className="ml-auto hidden h-8 lg:flex mb-5">
       <DatePickerWithRange />
-      <DataFilter/>
+      <DataFilter filterOptions={filterOptions} onFilterChange={handleFilterChange} />
             </div>
       <Table>
         <TableHeader>
