@@ -27,7 +27,7 @@ export function DataFilter({ filterOptions, onFilterChange }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[150px]">
-        <DropdownMenuLabel>Choose RS</DropdownMenuLabel>
+        <DropdownMenuLabel>Hospitals</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {filterOptions.map((option, index) => (
           <DropdownMenuCheckboxItem

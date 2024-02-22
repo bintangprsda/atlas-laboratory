@@ -43,6 +43,8 @@ async function getOrderTestData() {
         tanggalKirim: orderTestData.tanggalKirim,
         totalHarga: orderTestData.totalHarga,
         pdfURL: orderTestData.pdfURL,
+        username: orderTestData.username,
+        hospital: orderTestData.hospital,
         selectedTests, // Include selectedTests array
       };
     });

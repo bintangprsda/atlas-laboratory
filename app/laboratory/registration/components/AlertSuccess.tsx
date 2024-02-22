@@ -1,21 +1,34 @@
-"use client"
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
 
-export function ToastSimple() {
-  const { toast } = useToast()
-
+export function Confirmation({ onSubmit }) {
   return (
-    <Button
-      variant="outline"
-      onClick={() => {
-        toast({
-          description: "Your order has been sending.",
-        })
-      }}
-    >
-      Show Toast
-    </Button>
-  )
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button>Submit Form</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Confirmation</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to submit the data? This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={onSubmit}>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
 }

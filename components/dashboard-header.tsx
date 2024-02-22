@@ -44,9 +44,9 @@ export function DashboardHeader({ userData }) {
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{userData?.username}</p>
+                  <p className="text-lg font-medium leading-none">{userData?.completeName}</p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    {userData?.completeName}
+                    {userData?.hospital}
                   </p>
                 </div>
               </DropdownMenuLabel>

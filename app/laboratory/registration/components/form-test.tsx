@@ -1,5 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,11 +16,13 @@ import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Search, Trash2, PlusCircle, FlaskConical } from "lucide-react"
 import {Form } from "@/components/ui/form"
+import { Confirmation } from './AlertSuccess';
 
 const FormTest = ({ formData, setFormData }) => {
   const [selectedTests, setSelectedTests] = useState([]);
   const [addedTests, setAddedTests] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
   
 
   useEffect(() => {
@@ -26,6 +30,9 @@ const FormTest = ({ formData, setFormData }) => {
       try {
         const response = await fetch('../../../api/labtest');
         const data = await response.json();
+        const username = localStorage.getItem('username') || '';
+        const hospital = localStorage.getItem('hospital') || '';
+        setFormData((prev) => ({ ...prev, username, hospital }));
 
         const { selectedTests } = data;
         setSelectedTests(selectedTests);
@@ -86,7 +93,12 @@ const FormTest = ({ formData, setFormData }) => {
   
       const data = await response.json();
       console.log(data);
-      // Handle success scenario, maybe clear form or show a success message
+  
+      // Check for specific success message
+      if (data.message === "Data orderTest successfully added") {
+        // Navigate to the specific page
+        router.push('/laboratory/registration/recent-order');
+      }
     } catch (error) {
       console.error('Error submitting form:', error.message);
       // Handle error scenario, maybe show an error message
@@ -171,7 +183,8 @@ const FormTest = ({ formData, setFormData }) => {
             </Form>
           </CardContent>
         </Card>
-        <Button onClick={handleSubmit}>Submit Form</Button>
+        
+        <Confirmation onSubmit={handleSubmit} />
         </div>
   );
 };

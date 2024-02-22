@@ -107,6 +107,8 @@ const OrderRequest = () => {
               <>
               <CardHeader>
                 <CardTitle>{selectedOrderTest.namaPasien}</CardTitle>
+                <p className="text-xs text-muted-foreground mb-3">Username : {selectedOrderTest.username}</p>
+                <p className="text-xs text-muted-foreground mb-3">hospital : {selectedOrderTest.hospital}</p>
                 <CardDescription>
                   {selectedOrderTest.namaRS}
                   </CardDescription>
@@ -114,6 +116,7 @@ const OrderRequest = () => {
               <CardContent>
                 <div className="h-[300px]">
                   <p className="text-xs text-muted-foreground mb-3">No. Reg: {selectedOrderTest.documentNumber}</p>
+                  
                   {Array.isArray(selectedOrderTest.selectedTests) ? (
                     <div className="text-sm text-muted-foreground">
                       {/* Assume Table, TableHeader, etc., are components you have defined or imported */}

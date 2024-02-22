@@ -36,7 +36,7 @@ export function ListTube() {
   return (
     <Card className="mb-4 md:mb-0">
       <CardHeader>
-        <CardTitle>List Tube</CardTitle>
+        <CardTitle>🧪 List Tube</CardTitle>
         <CardDescription>Select test laboratory</CardDescription>
       </CardHeader>
       <CardContent>

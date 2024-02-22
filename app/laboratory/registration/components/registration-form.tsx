@@ -18,7 +18,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import FormTest from "./form-test";
 import useAuth from '../../../../helpers/hooks/useAuth';
 
@@ -36,8 +35,6 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
     gender: '',
   });
 
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false); // Add this line to manage alert visibility
-
   useEffect(() => {
     const username = localStorage.getItem('username');
     const hospital = localStorage.getItem('hospital');
@@ -47,7 +44,7 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
       setFormData(prev => ({ ...prev, username, hospital }));
     }
   }, []);
-  // Tidak ada perubahan di sini, tetap mengatur tanggal kirim secara default
+ 
   useEffect(() => {
     const now = new Date();
     const day = String(now.getDate()).padStart(2, '0');
@@ -71,27 +68,7 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
     }));
   };
 
-  const formatDate = (dateString) => {
-    const [year, month, day] = dateString.split("-");
-    return `${day}-${month}-${year}`;
-  };
   
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    // Ambil username dari local storage
-    const username = localStorage.getItem('username');
-    if (!username) {
-      console.error('Username is missing!');
-      return; // Atau tampilkan pesan error ke pengguna
-    }
-  
-    
-  
-    console.log('Submitting form with data:', submissionData);
-  
-    // Tempatkan logika pengiriman Anda di sini (misalnya, fetch API call)
-  };
   
   return (
     <>

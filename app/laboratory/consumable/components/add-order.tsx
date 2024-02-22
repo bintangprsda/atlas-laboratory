@@ -44,7 +44,7 @@ function AddOrder({ items, onDelete, onUpdateQuantity }) {
                 className="text-xs md:text-sm flex items-center justify-center"
               >
                 {/* Ensure the icon size adapts responsively, if needed */}
-                <Trash size="16" className="md:size-20" /> {/* Adjust the icon size as per your design system */}
+                <Trash size="1.2em"/> {/* Adjust the icon size as per your design system */}
               </Button>
             </div>
           </div>

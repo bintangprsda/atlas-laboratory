@@ -27,21 +27,21 @@ export function LoginForm() {
     e.preventDefault();
     setLoginError('');
     console.log('Attempting to log in with', { username, password });
-
+  
     try {
       const usersRef = collection(firestore, 'users');
       const q = query(usersRef, where('username', '==', username));
       const snapshot = await getDocs(q);
-
+  
       if (snapshot.empty) {
         console.log('User not found');
         setLoginError('User not found');
         return;
       }
-
+  
       let loginSuccessful = false;
       let userData = {};
-
+  
       snapshot.forEach(doc => {
         const user = doc.data();
         if (user.password === password) {
@@ -49,38 +49,24 @@ export function LoginForm() {
           userData = {
             userId: doc.id,
             username: user.username,
-            role: user.role, // Ensure the user data includes the 'role' field
-            hospital: user.hospital,
+            hospital: user.hospital, // Asumsi setiap user memiliki field hospital
             completeName: user.completeName,
             profilePictureURL: user.profilePictureURL,
           };
           console.log('Login successful for user:', user.username);
         }
       });
-
+  
       if (loginSuccessful) {
+        // Menyimpan data pengguna secara spesifik
+        localStorage.setItem('username', userData.username);
+        localStorage.setItem('hospital', userData.hospital);
+  
+        // Jika Anda masih ingin menyimpan seluruh userData, Anda bisa melakukan ini juga
         localStorage.setItem('user', JSON.stringify(userData));
-
-        // Redirect based on user role
-        switch (userData.role) {
-          case 'laboratory':
-            router.push('/laboratory');
-            break;
-          case 'nurse':
-            router.push('/nurse');
-            break;
-          case 'finance':
-            router.push('/finance');
-            break;
-          case 'pickup':
-            router.push('/pickup');
-            break;
-          default:
-            console.log('Undefined or unhandled user role:', userData.role);
-            // Optionally redirect to a default page or show an error message
-            setLoginError('Your role is not supported for redirection');
-            break;
-        }
+  
+        // Redirect to /laboratory page
+        router.push('/laboratory');
       } else {
         console.log('Incorrect password for username:', username);
         setLoginError('Incorrect password');
@@ -90,7 +76,6 @@ export function LoginForm() {
       setLoginError('Login failed. Please try again.');
     }
   };
-
   
   
 

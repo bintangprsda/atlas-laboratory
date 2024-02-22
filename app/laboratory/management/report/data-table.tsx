@@ -77,8 +77,8 @@ export function DataTable() {
   return (
     <Card>
       <CardHeader>
-      <CardTitle>Card Title</CardTitle>
-      <CardDescription>Card Description</CardDescription>
+      <CardTitle>Data Patient Order</CardTitle>
+      <CardDescription>Annual Report Sample </CardDescription>
       </CardHeader>
       <CardContent>
       <div className="ml-auto hidden h-8 lg:flex mb-5">

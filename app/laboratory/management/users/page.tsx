@@ -16,7 +16,7 @@ const UsersList: React.FC = () => {
       <div className="flex max-w flex-col items-start gap-2">
         <div className="flex items-center justify-between w-full">
           <h1 className="text-lg font-extrabold leading-tight tracking-tighter md:text-4xl">
-            Users
+          🧑‍🔬 Users
           </h1>
           <div className="flex text-xs font-extrabold flex-grow justify-end">
             <Link
@@ -30,12 +30,12 @@ const UsersList: React.FC = () => {
 
         </div>
         <p className="max-w-[700px] text-sm text-muted-foreground">
-          Request for Items for Blood Collection Preparation from Wards
+          Management Users and Role 
         </p>
       </div>
       <UsersDashboard/>
       <div className="w-full h-full flex items-center justify-center">
-      <div className="w-full mx-auto max-w-[950] mb-5 grid md:grid-cols gap-4">
+      <div className="w-full mx-auto max-w-[950] mb-5 grid md:grid-cols-2 gap-4">
         <DashboardUsers/>
       </div>
       </div>

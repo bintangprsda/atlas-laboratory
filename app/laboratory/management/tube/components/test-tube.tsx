@@ -44,7 +44,7 @@ export function TestTube() {
   return (
     <Card className="mb-4 md:mb-0">
       <CardHeader>
-        <CardTitle>List Test</CardTitle>
+        <CardTitle>🧬 List Test</CardTitle>
         <CardDescription>Select test laboratory</CardDescription>
       </CardHeader>
       <CardContent>

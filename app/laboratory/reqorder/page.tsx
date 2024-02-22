@@ -16,7 +16,7 @@ const RequestOrder: React.FC = () => {
           </h1>
           <div className="flex text-xs font-extrabold flex-grow justify-end">
             <Link
-              href="/laboratory"
+              href="/laboratory/registration"
               className={buttonVariants({ variant: "ghost" })}
             >
               <ChevronLeft />
