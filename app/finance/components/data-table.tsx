@@ -17,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Badge } from '@/components/ui/badge';
 import { Button } from "@/components/ui/button"
 import { DataFilter } from "./data-filter"
 import Pagination from './pagination'; // Ensure this path matches where your Pagination component is saved
@@ -58,12 +59,9 @@ export function DataTable() {
   // Determine if any filters are active
   const isAnyFilterActive = filterOptions.some(option => option.checked);
 
-  // Filter data based on active filters or return all data if no filters are active
-  const filteredData = isAnyFilterActive
-    ? orderTests.filter(test =>
-        filterOptions.find(option => option.name === test.namaRS && option.checked)
-      )
-    : orderTests; // Default to all data if no filters are selected
+  // Filter data based on active filters and status "Selesai"
+  const filteredData = orderTests.filter(test => test.status === "Selesai" && 
+    (isAnyFilterActive ? filterOptions.find(option => option.name === test.namaRS && option.checked) : true));
 
   const totalPages = Math.ceil(filteredData.length / pageSize);
   const currentTableData = filteredData.slice(
@@ -120,7 +118,6 @@ const handlePrint = () => {
             <TableHead>Test</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Amount</TableHead>
-            <TableHead className="text-right">TAT</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -136,14 +133,13 @@ const handlePrint = () => {
                   <div key={idx}>{t.testName}</div>
                 ))}
               </TableCell>
-              <TableCell>{test.status}</TableCell>
+              <TableCell><Badge variant="Selesai">{test.status}</Badge></TableCell>
               <TableCell className="text-right">
               {test.selectedTests.map((t, idx) => (
                     // Apply Rupiah formatting to each price here
                     <div key={idx}>{formatRupiah(parseFloat(t.price))}</div>
                   ))}
               </TableCell>
-              <TableCell>TAT</TableCell>
             </TableRow>
           ))}
         </TableBody>

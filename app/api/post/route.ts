@@ -81,6 +81,7 @@ export async function POST(request: NextRequest) {
       labRujukan = '',
       gender = '',
       selectedTests,
+      age = '',
       username = '', // Default to empty string if not provided
       hospital = '', // Default to empty string if not provided
     } = body;
@@ -108,9 +109,10 @@ export async function POST(request: NextRequest) {
       diagnosa,
       labRujukan,
       gender,
+      age,
       selectedTests,
-      username,
-      hospital,
+      userOrder: username, // Gunakan username dari state.
+      hospitalOrder: hospital, // Gunakan hospital dari state.
     };
 
     await addOrderTestData(orderTestData);

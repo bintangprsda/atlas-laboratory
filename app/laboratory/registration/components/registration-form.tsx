@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import FormTest from "./form-test";
 import useAuth from '../../../../helpers/hooks/useAuth';
+import { Button } from 'react-day-picker';
 
 const RegistrationForm = ({ onSubmit = () => {} }) => {
   useAuth();
@@ -33,6 +34,7 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
     diagnosa: '',
     labRujukan: 'SH Lippo Village',
     gender: '',
+    age: '',
   });
 
   useEffect(() => {
@@ -60,6 +62,29 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
     }));
   }, []);
 
+  // Function to calculate age
+  const calculateAge = (dob) => {
+    const birthday = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthday.getFullYear();
+    const m = today.getMonth() - birthday.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  // Effect to auto-update age when tanggalLahir changes
+  useEffect(() => {
+    if (formData.tanggalLahir) {
+      const age = calculateAge(formData.tanggalLahir);
+      setFormData((prevData) => ({
+        ...prevData,
+        age: age.toString(), // Assuming age is expected to be a string; adjust if necessary
+      }));
+    }
+  }, [formData.tanggalLahir]); // Depend on tanggalLahir
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -75,7 +100,9 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
       <Card className="mb-4 md:mb-0">
       <CardHeader>
         <CardTitle>Patient data</CardTitle>
-        <CardDescription>Input data patient</CardDescription>
+        <CardDescription>Input data patient
+        </CardDescription>
+        
       </CardHeader>
       <CardContent className="grid gap-6">
       <Form>
@@ -175,9 +202,20 @@ const RegistrationForm = ({ onSubmit = () => {} }) => {
                 <SelectValue placeholder="SH Lippo Village" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="SH Lippo Village">SH Lippo Village</SelectItem>
+                <SelectItem value="SH Lippo Village">Siloam Hospitals Lippo Village</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="diagnosa">Age</Label>
+            <Input
+              id="age"
+              name="age"
+              type="text"
+              placeholder=""
+              value={formData.age}
+              onChange={handleChange}
+            />
           </div>
         </div>
       </Form>

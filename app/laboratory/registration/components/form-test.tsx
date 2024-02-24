@@ -97,7 +97,7 @@ const FormTest = ({ formData, setFormData }) => {
       // Check for specific success message
       if (data.message === "Data orderTest successfully added") {
         // Navigate to the specific page
-        router.push('/laboratory/registration/recent-order');
+        router.push('/laboratory/recent-order');
       }
     } catch (error) {
       console.error('Error submitting form:', error.message);

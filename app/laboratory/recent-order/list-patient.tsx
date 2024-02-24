@@ -19,13 +19,11 @@ import {
   CardTitle,
   CardFooter,
 } from "@/components/ui/card";
-import DatePicker from "./date-picker";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { UserCheck } from "lucide-react";
-import { AcceptOrder } from "./accept"
 import { CancelOrder } from "./cancel"
 
-const OrderRequest = () => {
+const RecentOrder = () => {
   const [orderTests, setOrderTests] = useState([]);
   const [selectedOrderTest, setSelectedOrderTest] = useState(null);
 
@@ -59,41 +57,39 @@ const OrderRequest = () => {
           <CardTitle>📅 Order Date</CardTitle>
           <CardDescription>
             {/* Replace DatePicker with your actual DatePicker component */}
-            <DatePicker validDates={orderTests.map(test => test.tanggalKirim)} />
 
           </CardDescription>
         </CardHeader>
         <CardContent>
           <ScrollArea className="h-[300px]">
             <div className="space-y-8">
-              {orderTests
-                .filter((orderTest) => orderTest.status !== "Selesai")
-                .map((orderTest, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center hover:bg-secondary/80 rounded-lg p-2 cursor-pointer"
-                    onClick={() => handleOrderTestClick(orderTest)}
-                  >
-                    <div className="h-8 w-8 flex items-center justify-center rounded-full">
-                      {/* Replace UserCheck with your actual icon or image component */}
-                      <UserCheck className="h-7 w-7" />
-                    </div>
-                    <div className="ml-4 flex-shrink-0 space-y-1">
-                      <p className="text-sm font-medium leading-none truncate">
-                        {orderTest.namaPasien}
-                      </p>
-                      <p className="text-xs text-muted-foreground truncate">
-                        {orderTest.namaRS}
-                      </p>
-                      <p className="text-xs text-muted-foreground truncate">
-                        {orderTest.tanggalKirim}
-                      </p>
-                    </div>
-                    <Badge className="ml-auto text-xs" variant={orderTest.status}>
-                      {orderTest.status}
-                    </Badge>
-                  </div>
-                ))}
+            {orderTests
+            .filter((orderTest) => orderTest.status === "Dikirim") // Adjusted from !== "Selesai" to === "Dikirim"
+            .map((orderTest, index) => (
+                <div
+                key={index}
+                className="flex items-center hover:bg-secondary/80 rounded-lg p-2 cursor-pointer"
+                onClick={() => handleOrderTestClick(orderTest)}
+                >
+                <div className="h-8 w-8 flex items-center justify-center rounded-full">
+                    <UserCheck className="h-7 w-7" />
+                </div>
+                <div className="ml-4 flex-shrink-0 space-y-1">
+                    <p className="text-sm font-medium leading-none truncate">
+                    {orderTest.namaPasien}
+                    </p>
+                    <p className="text-xs text-muted-foreground truncate">
+                    {orderTest.namaRS}
+                    </p>
+                    <p className="text-xs text-muted-foreground truncate">
+                    {orderTest.tanggalKirim}
+                    </p>
+                </div>
+                <Badge className="ml-auto text-xs" variant={orderTest.status}>
+                    {orderTest.status}
+                </Badge>
+                </div>
+            ))}
             </div>
           </ScrollArea>
         </CardContent>
@@ -107,8 +103,8 @@ const OrderRequest = () => {
               <>
               <CardHeader>
                 <CardTitle>{selectedOrderTest.namaPasien}</CardTitle>
-                <p className="text-xs text-muted-foreground mb-3">Username : {selectedOrderTest.userOrder}</p>
-                <p className="text-xs text-muted-foreground mb-3">hospital : {selectedOrderTest.hospitalOrder}</p>
+                <p className="text-xs text-muted-foreground mb-3">Username : {selectedOrderTest.username}</p>
+                <p className="text-xs text-muted-foreground mb-3">hospital : {selectedOrderTest.hospital}</p>
                 <CardDescription>
                   {selectedOrderTest.namaRS}
                   </CardDescription>
@@ -152,7 +148,6 @@ const OrderRequest = () => {
               </CardContent>
               <CardFooter className="flex items-center justify-end gap-x-2">
                 <CancelOrder selectedOrderTest={selectedOrderTest} />
-                <AcceptOrder selectedOrderTest={selectedOrderTest} refreshData={fetchData} />
               </CardFooter>
               </>
             )}
@@ -165,4 +160,4 @@ const OrderRequest = () => {
   );
 };
 
-export default OrderRequest;
+export default RecentOrder;
