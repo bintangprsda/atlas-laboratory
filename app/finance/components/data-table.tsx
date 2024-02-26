@@ -99,7 +99,7 @@ const handlePrint = () => {
   return (
     <Card>
       <CardHeader>
-      <CardTitle>Data Patient Order</CardTitle>
+      <CardTitle>List Hospitals Report </CardTitle>
       <CardDescription>Annual Report Sample </CardDescription>
       </CardHeader>
       <CardContent>
@@ -146,7 +146,7 @@ const handlePrint = () => {
         <TableFooter>
           <TableRow>
             <TableCell colSpan={7}>Total</TableCell>
-            <TableCell className="text-right">{formatRupiah(totalPrice)}</TableCell>
+            <TableCell className="text-right font-bold">{formatRupiah(totalPrice)}</TableCell>
           </TableRow>
         </TableFooter>
       </Table>

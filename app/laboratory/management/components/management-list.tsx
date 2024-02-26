@@ -45,6 +45,12 @@ export function Sidebar({ className, management }) {
               Report
             </div>
           </Link>
+          <Link href="/laboratory/management/test">
+            <div className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground">
+              <Tags className="mb-3 h-6 w-6 text-yellow-500" /> {/* Example: Yellow color */}
+              Test
+            </div>
+          </Link>
         </div>
 
       </CardContent>
